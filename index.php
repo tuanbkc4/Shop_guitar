@@ -11,12 +11,12 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/SHOP_GUITAR/templates/admin/inc/sideb
     <div class="content-wrapper">
         <div class="container mb-5">
             <div class="row">
-                <h3 class="mb-3">Product</h3>
+                <h3 class="mb-3">Category</h3>
             </div>
             <div class="row bg-white p-4 rounded-lg justify-content-between">
                 <form class="col-md-9">
                     <div class="row justify-content-between">
-                        <input class="col-md-7 w-full form-input" type="search" name="search" placeholder="Search by product...">
+                        <input class="col-md-7 w-full form-input" type="search" name="search" placeholder="Search by category type">
                         <button type="submit" class="d-none absolute right-0 top-0 mt-5 mr-1"></button>
                         <select class="col-md-4 form-input">
                             <option value="All" hidden="">Category</option>
@@ -25,7 +25,7 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/SHOP_GUITAR/templates/admin/inc/sideb
 
                     </div>
                 </form>
-                <a class="col-md-2 btn-custom" href="add.php">Add Product</a>
+                <a class="col-md-2 btn-custom" href="add.php">Add Category</a>
             </div>
         </div>
         <?php
@@ -57,48 +57,64 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/SHOP_GUITAR/templates/admin/inc/sideb
         <?php
         }
         ?>
+
         <div class="container bg-white p-0">
+
             <table class="table table-bordered">
                 <thead class="thead-dark text-center">
                     <tr>
                         <th scope="col" width="80px">STT</th>
-                        <th scope="col">PRODUCT NAME</th>
-                        <th scope="col">CATEGORY</th>
-                        <th scope="col">PRICE</th>
-                        <th scope="col">QUANTITY</th>
+                        <th scope="col">PARENT</th>
+                        <th scope="col">CHILDREN</th>
                         <th scope="col" width="200px">ACTION</th>
                     </tr>
                 </thead>
                 <tbody>
                     <?php
-                    $queryGetProduct = "SELECT p.*,cat.name AS catName FROM product AS p INNER JOIN category AS cat ON p.category_id = cat.id";
-                    $result = $conn->query($queryGetProduct);
+                    $qr = "SELECT id,name FROM category WHERE parent_id IS NULL ";
+                    $result = $conn->query($qr);
                     $index = 1;
                     if ($result->num_rows > 0) {
-                        while ($arProducts = $result->fetch_assoc()) {
+                        while ($arCats = $result->fetch_assoc()) {
                     ?>
                             <tr>
-                                <td scope="row" class="text-center"><?php echo $index++ ?></td>
-                                <td class="text-center">
-                                    <?php echo $arProducts['name'] ?>
-                                </td>
-                                <td class="text-center">
-                                    <?php echo $arProducts['catName'] ?>
-                                </td>
-                                <td class="text-center">
-                                    <?php echo $arProducts['price'] ?>
-                                </td>
-                                <td class="text-center">
-                                    <?php echo $arProducts['quantity'] ?>
-                                </td>
+                                <td scope="row" class="text-center"><?php echo $index++; ?></td>
+                                <td><?php echo $arCats['name']; ?></td>
+                                <?php
+                                $qr1 = "SELECT id,name FROM category WHERE parent_id = {$arCats['id']}";
+                                $resultChild = $conn->query($qr1);
+                                if ($resultChild->num_rows > 0) {
+                                ?>
+                                    <td class="children_cat">
+                                        <?php
+                                        while ($arChild = $resultChild->fetch_assoc()) {
+                                        ?>
+                                            <span>
+                                                <?php echo $arChild['name']; ?>
+                                                <a href="edit.php?id=<?php echo $arChild['id']; ?>" class="edit">
+                                                    <ion-icon name="create-outline"></ion-icon>
+                                                </a>
+                                                <a href="remove.php?id=<?php echo $arChild['id']; ?>" class="remove">
+                                                    <ion-icon name="trash-outline"></ion-icon>
+                                                </a>
+                                            </span>
+                                        <?php
+                                        }
+                                        ?>
+                                    </td>
+                                <?php
+                                } else {
+                                ?>
+                                    <td></td>
+                                <?php
+                                }
+                                ?>
+
                                 <td class="action_cat">
-                                    <a href="detail.php?id=<?php echo $arProducts['id'] ?>" class="edit">
-                                        <ion-icon name="eye-outline"></ion-icon>
-                                    </a>
-                                    <a href="edit.php?id=<?php echo $arProducts['id'] ?>" class="edit">
+                                    <a href="edit.php?id=<?php echo $arCats['id']; ?>" class="edit">
                                         <ion-icon name="create-outline"></ion-icon>
                                     </a>
-                                    <a href="remove.php?id=<?php echo $arProducts['id'] ?>" class="remove">
+                                    <a href="remove.php?id=<?php echo $arCats['id']; ?>" class="remove">
                                         <ion-icon name="trash-outline"></ion-icon>
                                     </a>
                                 </td>
@@ -107,7 +123,7 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/SHOP_GUITAR/templates/admin/inc/sideb
                         }
                         ?>
                         <tr>
-                            <td colspan="6" class="p-2">
+                            <td colspan="4" class="p-2">
                                 <div class="footer-table">
                                     <div>SHOWING 1-8 OF 18</div>
                                     <nav class="ml-auto">
@@ -127,8 +143,8 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/SHOP_GUITAR/templates/admin/inc/sideb
                     } else {
                     ?>
                         <tr>
-                            <td colspan="6" class="p-2">
-                                <p class="text-center mb-1 mt-1">Không có sản phẩm</p>
+                            <td colspan="4" class="p-2">
+                                <p class="text-center mb-1 mt-1">Danh mục trống</p>
                             </td>
                         </tr>
                     <?php
@@ -142,13 +158,13 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/SHOP_GUITAR/templates/admin/inc/sideb
     <!-- partial:partials/_footer.html -->
     <script>
         var arRemove=document.querySelectorAll('.remove');
+        console.log(arRemove);
         arRemove.forEach(function(item){
             item.onclick = function() {
                 confirm('Bạn có chắc chắn muốn xoá không !!!')
             }
         });
     </script>
-
     <?php
     require_once $_SERVER['DOCUMENT_ROOT'] . '/SHOP_GUITAR/templates/admin/inc/footer.php';
     ?>

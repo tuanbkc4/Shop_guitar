@@ -10,29 +10,74 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/SHOP_GUITAR/templates/admin/inc/sideb
 <div class="main-panel">
     <div class="content-wrapper">
         <div class="container prodcut_detail">
+            <?php
+            //   find items 
+            $id = $_GET["id"];
+            if (is_numeric($id)) {
+                $id = (int)$id;
+                $qrGetInfo = "SELECT * FROM product WHERE id = {$id}";
+                $resultGetInfo = $conn->query($qrGetInfo);
+                $product = $resultGetInfo->fetch_assoc();
+                if ($resultGetInfo->num_rows == 0) {
+                    header('location:index.php?msgDanger=Product không tồn tại');
+                    die();
+                }
+            } else {
+                header('location:index.php?msgDanger=Product không tồn tại');
+                die();
+            }
+            ?>
             <div class="card">
                 <div class="container-fliud">
                     <div class="wrapper row">
                         <div class="preview col-md-6">
-
-                            <div class="preview-pic tab-content">
-                                <div class="tab-pane active" id="pic-1"><img src="http://placekitten.com/400/252" /></div>
-                                <div class="tab-pane" id="pic-2"><img src="http://placekitten.com/400/252" /></div>
-                                <div class="tab-pane" id="pic-3"><img src="http://placekitten.com/400/252" /></div>
-                                <div class="tab-pane" id="pic-4"><img src="http://placekitten.com/400/252" /></div>
-                                <div class="tab-pane" id="pic-5"><img src="http://placekitten.com/400/252" /></div>
-                            </div>
-                            <ul class="preview-thumbnail nav nav-tabs">
-                                <li class="active"><a data-target="#pic-1" data-toggle="tab"><img src="http://placekitten.com/200/126" /></a></li>
-                                <li><a data-target="#pic-2" data-toggle="tab"><img src="http://placekitten.com/200/126" /></a></li>
-                                <li><a data-target="#pic-3" data-toggle="tab"><img src="http://placekitten.com/200/126" /></a></li>
-                                <li><a data-target="#pic-4" data-toggle="tab"><img src="http://placekitten.com/200/126" /></a></li>
-                                <li><a data-target="#pic-5" data-toggle="tab"><img src="http://placekitten.com/200/126" /></a></li>
-                            </ul>
-
+                            <?php
+                            $qrGetImage = "SELECT * FROM image WHERE product_id = {$id}";
+                            $resultGetImage = $conn->query($qrGetImage);
+                            if ($resultGetImage->num_rows > 0) {
+                            ?>
+                                <div class="preview-pic tab-content">
+                                    <?php
+                                            $i = 1;
+                                            while ($arImages = $resultGetImage->fetch_assoc()) {
+                                                if ($i == 1) {
+                                            ?>
+                                            <div class="tab-pane active" id="pic-<?php echo $arImages['id'] ?>"><img src="../../../files/images/products/<?php echo $arImages['name']; ?>" /></div>
+                                        <?php
+                                                } else {
+                                        ?>
+                                            <div class="tab-pane" id="pic-<?php echo $arImages['id'] ?>"><img src="../../../files/images/products/<?php echo $arImages['name']; ?>" /></div>
+                                    <?php
+                                                }
+                                                $i++;
+                                            }
+                                    ?>
+                                </div>
+                                <ul class="preview-thumbnail nav nav-tabs">
+                                    <?php
+                                            $qrGetImage = "SELECT * FROM image WHERE product_id = {$id}";
+                                            $resultGetImage = $conn->query($qrGetImage);
+                                            $i = 1;
+                                            while ($arImages = $resultGetImage->fetch_assoc()) {
+                                                if ($i == 1) {
+                                            ?>
+                                            <li class="active"><a data-target="#pic-<?php echo $arImages['id'] ?>" data-toggle="tab"><img src="../../../files/images/products/<?php echo $arImages['name']; ?>" /></a></li>
+                                        <?php
+                                                } else {
+                                        ?>
+                                            <li><a data-target="#pic-<?php echo $arImages['id'] ?>" data-toggle="tab"><img src="../../../files/images/products/<?php echo $arImages['name']; ?>" /></a></li>
+                                    <?php
+                                                }
+                                                $i++;
+                                            }
+                                    ?>
+                                </ul>
+                            <?php
+                            }
+                            ?>
                         </div>
                         <div class="details col-md-6">
-                            <h3 class="product-title">men's shoes fashion</h3>
+                            <h3 class="product-title"><?php echo $product['name']; ?></h3>
                             <div class="rating">
                                 <div class="stars">
                                     <span class="fa fa-star checked"></span>
@@ -41,12 +86,13 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/SHOP_GUITAR/templates/admin/inc/sideb
                                     <span class="fa fa-star"></span>
                                     <span class="fa fa-star"></span>
                                 </div>
-                                <span class="review-no">41 reviews</span>
+                                <span class="review-no"><?php echo $product['rating']; ?> reviews</span>
                             </div>
-                            <p class="product-description">Suspendisse quos? Tempus cras iure temporibus? Eu laudantium cubilia sem sem! Repudiandae et! Massa senectus enim minim sociosqu delectus posuere.</p>
-                            <h4 class="price">current price: <span>$180</span></h4>
+                            <p class="product-description"><?php echo $product['detail']; ?></p>
+                            <h5 class="price">Quantity: <span><?php echo $product['quantity']; ?></span></h5>
+                            <h5 class="price">Price: <span><?php echo $product['price']; ?></span></h5>
                             <div class="action">
-                                <a class="add-to-cart btn btn-default" href="edit.php">edit product</a>
+                                <a class="add-to-cart btn btn-default" href="edit.php?id=<?php echo $product['id']; ?>">edit product</a>
                                 <a class="like btn btn-default" href="index.php">back</a>
                             </div>
                         </div>

@@ -101,7 +101,7 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/SHOP_GUITAR/templates/admin/inc/sideb
                         <form method="POST" action="" class="form-horizontal" role="form">
                             <div class="form-group">
                                 <label for="cat_name">Category Name</label>
-                                <input type="text" class="form-control" id="cat_name" placeholder="Category Name" name="cat_name" value="<?php echo ($name != "" ? $name : ""); ?>">
+                                <input type="text" class="form-control form-input" id="cat_name" placeholder="Category Name" name="cat_name" value="<?php echo ($name != "" ? $name : ""); ?>">
                                 <?php
                                 if ($nameErr != "") {
                                 ?>
@@ -119,7 +119,7 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/SHOP_GUITAR/templates/admin/inc/sideb
                                 </div>
                                 <div class="form-group parent_cat mt-1" style="display:<?php echo ($checked != "" ? "block" : "none") ?>;">
                                     <label for="Parent Category">Parent Category</label>
-                                    <select name="Parent_Category" class="form-control" id="Parent_Category">
+                                    <select name="Parent_Category" class="form-control form-input" id="Parent_Category">
                                         <option value="">-- Choose parent --</option>
                                         <?php
                                         $querySelect = "SELECT id,name FROM category WHERE parent_id IS NULL AND id != $id ";
@@ -151,7 +151,6 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/SHOP_GUITAR/templates/admin/inc/sideb
         </div>
     </div>
     <script>
-        // add category
         var checked_child_cat = document.querySelector('.checked_child_cat');
         var parent_cat = document.querySelector('.parent_cat');
         checked_child_cat.onclick = function() {

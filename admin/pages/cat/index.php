@@ -71,15 +71,15 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/SHOP_GUITAR/templates/admin/inc/sideb
                 </thead>
                 <tbody>
                     <?php
-                    $qr = "SELECT id,name FROM category WHERE parent_id IS NULL ";
-                    $result = $conn->query($qr);
+                    $queryGetCategory = "SELECT id,name FROM category WHERE parent_id IS NULL ";
+                    $result = $conn->query($queryGetCategory);
                     $index = 1;
                     if ($result->num_rows > 0) {
                         while ($arCats = $result->fetch_assoc()) {
                     ?>
                             <tr>
                                 <td scope="row" class="text-center"><?php echo $index++; ?></td>
-                                <td><?php echo $arCats['name']; ?></td>
+                                <td class="text-center"><?php echo $arCats['name']; ?></td>
                                 <?php
                                 $qr1 = "SELECT id,name FROM category WHERE parent_id = {$arCats['id']}";
                                 $resultChild = $conn->query($qr1);
@@ -144,7 +144,7 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/SHOP_GUITAR/templates/admin/inc/sideb
                     ?>
                         <tr>
                             <td colspan="4" class="p-2">
-                                <p class="text-center mb-1 mt-1">Danh mục trống</p>
+                                <p class="text-center mb-1 mt-1">Không có danh mục</p>
                             </td>
                         </tr>
                     <?php
@@ -158,7 +158,6 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/SHOP_GUITAR/templates/admin/inc/sideb
     <!-- partial:partials/_footer.html -->
     <script>
         var arRemove=document.querySelectorAll('.remove');
-        console.log(arRemove);
         arRemove.forEach(function(item){
             item.onclick = function() {
                 confirm('Bạn có chắc chắn muốn xoá không !!!')

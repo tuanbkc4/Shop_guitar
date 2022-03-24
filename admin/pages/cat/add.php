@@ -28,7 +28,7 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/SHOP_GUITAR/templates/admin/inc/sideb
 
                             if (isset($_POST['checkbox'])) {
                                 $checked = "checked";
-                                if($parentCat == ""){
+                                if ($parentCat == "") {
                                     $parentCatErr = "Vui lòng chọn parent category ";
                                 }
                             }
@@ -43,7 +43,7 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/SHOP_GUITAR/templates/admin/inc/sideb
                                 }
                             }
 
-                            
+
 
                             if ($nameErr == "" && $parentCatErr == "") {
                                 if (isset($_POST['checkbox'])) {
@@ -73,7 +73,7 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/SHOP_GUITAR/templates/admin/inc/sideb
                         <form method="POST" action="" class="form-horizontal" role="form">
                             <div class="form-group">
                                 <label for="cat_name">Category Name</label>
-                                <input type="text" class="form-control" id="cat_name" placeholder="Category Name" name="cat_name" value="<?php echo ($name != "" ? $name : ""); ?>">
+                                <input type="text" class="form-control form-input" id="cat_name" placeholder="Category Name" name="cat_name" value="<?php echo ($name != "" ? $name : ""); ?>">
                                 <?php
                                 if ($nameErr != "") {
                                 ?>
@@ -88,7 +88,7 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/SHOP_GUITAR/templates/admin/inc/sideb
                             </div>
                             <div class="form-group parent_cat mt-1" style="display:<?php echo ($checked != "" ? "block" : "none") ?>;">
                                 <label for="Parent Category">Parent Category</label>
-                                <select name="Parent_Category" class="form-control" id="Parent_Category">
+                                <select name="Parent_Category" class="form-control form-input" id="Parent_Category">
                                     <option value="">-- Choose parent --</option>
                                     <?php
                                     $querySelect = "SELECT id,name FROM category WHERE parent_id IS NULL";
@@ -116,6 +116,17 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/SHOP_GUITAR/templates/admin/inc/sideb
             </div>
         </div>
     </div>
+    <script>
+        var checked_child_cat = document.querySelector('.checked_child_cat');
+        var parent_cat = document.querySelector('.parent_cat');
+        checked_child_cat.onclick = function() {
+            if (checked_child_cat.checked) {
+                parent_cat.style.display = "block";
+            } else {
+                parent_cat.style.display = "none";
+            }
+        }
+    </script>
 
     <?php
     require_once $_SERVER['DOCUMENT_ROOT'] . '/SHOP_GUITAR/templates/admin/inc/footer.php';

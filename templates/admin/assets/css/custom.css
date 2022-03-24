@@ -30,8 +30,10 @@ a {
     outline: none;
     border-radius: 5px;
     padding: 8px 16px;
-    background-color: rgb(238, 238, 238);
-    border: .5px solid #ccc;
+    background-color: rgba(234, 234, 234, 0.742);
+    border: .5px solid rgb(158, 158, 158) !important;
+    color: #000 !important;
+    font-size: 17px;
 }
 
 .form-input:focus {
@@ -99,23 +101,6 @@ a {
     box-shadow: 0px 0px 5px rgb(126, 125, 125);
 }
 
-.add_form input:not(input[type="submit"], input[type="file"]),
-.add_form select,
-.add_form textarea {
-    outline: none;
-    font-size: 17px;
-    padding: 4px 8px;
-    border: 1px solid #000;
-    color: #000;
-}
-
-.add_form input:not(input[type="submit"], input[type="file"]):focus,
-.add_form select:focus,
-.add_form select,
-.add_form select .add_form textarea:focus {
-    border: 1.5px solid rgb(1, 25, 131);
-}
-
 .add_form label {
     font-size: 17px;
     margin-bottom: 12px;
@@ -130,6 +115,9 @@ a {
     padding: 0;
     cursor: pointer;
 }
+
+
+/* images */
 
 .prodcut_detail {
     background-color: #fff;
@@ -176,11 +164,18 @@ a {
 .prodcut_detail .preview-thumbnail.nav-tabs li {
     width: 18%;
     margin-right: 2.5%;
+    cursor: pointer;
+    overflow: hidden;
 }
 
 .prodcut_detail .preview-thumbnail.nav-tabs li img {
     max-width: 100%;
     display: block;
+}
+
+.prodcut_detail .preview-thumbnail.nav-tabs li:hover img {
+    transform: scale(1.1);
+    transition: all 0.2s ease;
 }
 
 .prodcut_detail .preview-thumbnail.nav-tabs li a {
@@ -353,4 +348,187 @@ a {
         -webkit-transform: scale(1);
         transform: scale(1);
     }
+}
+
+
+/* upload ảnh */
+
+
+/* .dandev-reviews {
+    padding: 10px 20px;
+    border: 1px solid #ccc;
+} */
+
+
+/* .dandev-reviews .form_upload {
+    width: 320px;
+    position: relative;
+    padding: 5px;
+    bottom: 0px;
+    height: 40px;
+    left: 0;
+    z-index: 5;
+    box-sizing: border-box;
+    background: #f7f7f7;
+    border-top: 1px solid #ddd;
+} */
+
+.dandev_insert_attach {
+    cursor: pointer;
+    margin-left: 8px;
+    padding: 4px 8px;
+    background-color: #81C750;
+    display: inline-block;
+    color: #fff;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.dandev_insert_attach:hover {
+    background-color: #67AD36;
+}
+
+.dandev-reviews .form_upload>label {
+    height: 35px;
+    width: 160px;
+    display: block;
+    cursor: pointer;
+}
+
+.dandev-reviews .form_upload label span {
+    padding-left: 26px;
+    display: inline-block;
+    background: url(images/camera.png) no-repeat;
+    background-size: 23px 20px;
+    margin: 5px 0 0 10px;
+}
+
+.list_attach {
+    /* display: block;
+     */
+    display: flex;
+    flex-wrap: wrap;
+    margin-top: 30px;
+}
+
+ul.dandev_attach_view {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+ul.dandev_attach_view li {
+    /* float: left; */
+    width: 80px;
+    margin: 0 20px 20px 0 !important;
+    padding: 0!important;
+    border: 0!important;
+    overflow: inherit;
+    clear: none;
+}
+
+*/ ul.dandev_attach_view .img-wrap {
+    position: relative;
+}
+
+ul.dandev_attach_view .img-wrap .close {
+    position: absolute;
+    right: -10px;
+    top: -10px;
+    background: #000;
+    color: #fff!important;
+    border-radius: 50%;
+    z-index: 2;
+    display: block;
+    width: 20px;
+    height: 20px;
+    font-size: 16px;
+    text-align: center;
+    line-height: 18px;
+    cursor: pointer!important;
+    opacity: 1!important;
+    text-shadow: none;
+}
+
+ul.dandev_attach_view li.li_file_hide {
+    opacity: 0;
+    visibility: visible;
+    width: 0!important;
+    height: 0!important;
+    overflow: hidden;
+    margin: 0!important;
+}
+
+ul.dandev_attach_view .img-wrap-box {
+    position: relative;
+    overflow: hidden;
+    padding-top: 100%;
+    height: auto;
+    background-position: 50% 50%;
+    background-size: cover;
+}
+
+.img-wrap-box img {
+    right: 0;
+    width: 100%!important;
+    height: 100%!important;
+    bottom: 0;
+    left: 0;
+    top: 0;
+    position: absolute;
+    object-position: 50% 50%;
+    object-fit: cover;
+    transition: all .5s linear;
+    -moz-transition: all .5s linear;
+    -webkit-transition: all .5s linear;
+    -ms-transition: all .5s linear;
+}
+
+ul li,
+ol li {
+    list-style-position: inside;
+}
+
+.list_attach span.dandev_insert_attach {
+    width: 80px;
+    height: 80px;
+    text-align: center;
+    display: inline-block;
+    background-color: #fff;
+    border: 2px dashed #ccc;
+    line-height: 76px;
+    font-size: 25px;
+    color: #ccc;
+    display: none;
+    cursor: pointer;
+    /* float: left; */
+    order: 10;
+}
+
+ul.dandev_attach_view {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+ul.dandev_attach_view .img-wrap {
+    position: relative;
+}
+
+.list_attach.show-btn span.dandev_insert_attach {
+    display: block;
+    margin: 0 0 20px!important;
+}
+
+i.dandev-plus {
+    font-style: normal;
+    font-weight: 900;
+    font-size: 35px;
+    line-height: 1;
+}
+
+ul.dandev_attach_view li input {
+    display: none;
 }
