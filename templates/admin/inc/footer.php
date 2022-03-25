@@ -33,6 +33,8 @@
 <script src="/SHOP_GUITAR/templates/admin/assets/vendors/jquery/jquery-3.6.0.min.js"></script>
 <!-- custom -->
 <script src="/SHOP_GUITAR/templates/admin/assets/js/custom.js"></script>
+<!-- ckeditor -->
+<script src="/SHOP_GUITAR/templates/admin/assets/js/ckeditor/ckeditor.js"></script>
 
 </body>
 

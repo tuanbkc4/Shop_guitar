@@ -212,7 +212,7 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/SHOP_GUITAR/templates/admin/inc/sideb
                             </div>
                             <div class="form-group">
                                 <label for="Prodcut_description">Prodcut description</label>
-                                <textarea rows="6" type="number" name="Prodcut_description" class="form-control form-input" id="Prodcut_description" placeholder="Prodcut description"><?php echo $productDescription; ?></textarea>
+                                <textarea rows="6" type="number" name="Prodcut_description" class="form-control form-input ckeditor" id="Prodcut_description" placeholder="Prodcut description"><?php echo $productDescription; ?></textarea>
                                 <?php
                                 if ($productDescriptionErr != "") {
                                 ?>

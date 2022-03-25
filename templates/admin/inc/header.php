@@ -10,7 +10,7 @@ include_once $_SERVER['DOCUMENT_ROOT'] . '/SHOP_GUITAR/Util/dbconnect.php';
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>Admin Shop Guitar</title>
+    <title>Admin | Shop Guitar</title>
     <!-- plugins:css -->
     <link rel="stylesheet" href="/SHOP_GUITAR/templates/admin/assets/vendors/simple-line-icons/css/simple-line-icons.css">
     <link rel="stylesheet" href="/SHOP_GUITAR/templates/admin/assets/vendors/flag-icon-css/css/flag-icon.min.css">
