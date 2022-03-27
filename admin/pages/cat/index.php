@@ -28,35 +28,37 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/SHOP_GUITAR/templates/admin/inc/sideb
                 <a class="col-md-2 btn-custom" href="add.php">Add Category</a>
             </div>
         </div>
-        <?php
-        if (isset($_GET['msgSuccess'])) {
-            $msgSuccess = $_GET['msgSuccess'];
-        ?>
-            <div class="alert alert-success alert-dismissible fade show mb-2" role="alert">
-                <strong><?php echo $msgSuccess; ?></strong>
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
+        <div class="container p-0">
+            <?php
+            if (isset($_GET['msgSuccess'])) {
+                $msgSuccess = $_GET['msgSuccess'];
+            ?>
+                <div class="alert alert-success alert-dismissible fade show mb-2" role="alert">
+                    <strong><?php echo $msgSuccess; ?></strong>
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
 
-        <?php
-        }
-        ?>
+            <?php
+            }
+            ?>
 
-        <?php
-        if (isset($_GET['msgDanger'])) {
-            $msgDanger = $_GET['msgDanger'];
-        ?>
-            <div class="alert alert-danger alert-dismissible fade show mb-2" role="alert">
-                <strong><?php echo $msgDanger; ?></strong>
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
+            <?php
+            if (isset($_GET['msgDanger'])) {
+                $msgDanger = $_GET['msgDanger'];
+            ?>
+                <div class="alert alert-danger alert-dismissible fade show mb-2" role="alert">
+                    <strong><?php echo $msgDanger; ?></strong>
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
 
-        <?php
-        }
-        ?>
+            <?php
+            }
+            ?>
+        </div>
 
         <div class="container bg-white p-0">
 
@@ -71,7 +73,7 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/SHOP_GUITAR/templates/admin/inc/sideb
                 </thead>
                 <tbody>
                     <?php
-                    $queryGetCategory = "SELECT id,name FROM category WHERE parent_id IS NULL ";
+                    $queryGetCategory = "SELECT id,name FROM category WHERE parent_id IS NULL ORDER BY id DESC";
                     $result = $conn->query($queryGetCategory);
                     $index = 1;
                     if ($result->num_rows > 0) {
@@ -157,8 +159,8 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/SHOP_GUITAR/templates/admin/inc/sideb
     <!-- content-wrapper ends -->
     <!-- partial:partials/_footer.html -->
     <script>
-        var arRemove=document.querySelectorAll('.remove');
-        arRemove.forEach(function(item){
+        var arRemove = document.querySelectorAll('.remove');
+        arRemove.forEach(function(item) {
             item.onclick = function() {
                 confirm('Bạn có chắc chắn muốn xoá không !!!')
             }

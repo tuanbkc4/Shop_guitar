@@ -17,10 +17,11 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/SHOP_GUITAR/templates/admin/inc/sideb
                 $id = (int)$id;
                 $qrGetInfo = "SELECT * FROM product WHERE id = {$id}";
                 $resultGetInfo = $conn->query($qrGetInfo);
-                $product = $resultGetInfo->fetch_assoc();
                 if ($resultGetInfo->num_rows == 0) {
                     header('location:index.php?msgDanger=Product không tồn tại');
                     die();
+                }else{
+                    $product = $resultGetInfo->fetch_assoc();
                 }
             } else {
                 header('location:index.php?msgDanger=Product không tồn tại');

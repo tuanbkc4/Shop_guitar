@@ -63,11 +63,16 @@ include_once $_SERVER['DOCUMENT_ROOT'] . '/SHOP_GUITAR/Util/dbconnect.php';
         </div>
         <nav class="humberger__menu__nav mobile-menu">
             <ul>
+                <?php 
+                  $queryCat = "SELECT id FROM category WHERE parent_id IS NOT NULL LIMIT 1";
+                  $resultCat = $conn->query($queryCat); 
+                  $Cat = $resultCat->fetch_assoc();
+                ?>
                 <li class="active"><a href="/SHOP_GUITAR/index.php">Home</a></li>
-                <li><a href="/SHOP_GUITAR/products.php">Shop</a></li>
+                <li><a href="/SHOP_GUITAR/cat.php?id=<?php echo $Cat['id'];?>">Shop</a></li>
                 <li>Pages
                     <ul class="header__menu__dropdown">
-                        <li><a href="/SHOP_GUITAR/productDetail.php">Shop Details</a></li>
+                        <li><a href="/SHOP_GUITAR/detail.php">Shop Details</a></li>
                         <li><a href="/SHOP_GUITAR/cart.php">Shoping Cart</a></li>
                         <li><a href="/SHOP_GUITAR/checkout.php">Check Out</a></li>
                     </ul>
@@ -140,10 +145,10 @@ include_once $_SERVER['DOCUMENT_ROOT'] . '/SHOP_GUITAR/Util/dbconnect.php';
                     <nav class="header__menu">
                         <ul>
                             <li class="active"><a href="/SHOP_GUITAR/index.php">Home</a></li>
-                            <li><a href="/SHOP_GUITAR/products.php">Shop</a></li>
+                            <li><a href="/SHOP_GUITAR/cat.php?id=<?php echo $Cat['id'];?>">Shop</a></li>
                             <li><a href="#">Pages</a>
                                 <ul class="header__menu__dropdown">
-                                    <li><a href="/SHOP_GUITAR/productDetail.php">Shop Details</a></li>
+                                    <li><a href="/SHOP_GUITAR/detail.php">Shop Details</a></li>
                                     <li><a href="/SHOP_GUITAR/cart.php">Shoping Cart</a></li>
                                     <li><a href="/SHOP_GUITAR/checkout.php">Check Out</a></li>
                                 </ul>
@@ -168,3 +173,46 @@ include_once $_SERVER['DOCUMENT_ROOT'] . '/SHOP_GUITAR/Util/dbconnect.php';
         </div>
     </header>
     <!-- Header Section End -->
+    <!-- Hero Section Begin -->
+    <section class="hero">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-3">
+                    <?php
+                    require_once $_SERVER['DOCUMENT_ROOT'] . '/SHOP_GUITAR/templates/shop/inc/heroCat.php';
+                    ?>
+                </div>
+                <div class="col-lg-9">
+                    <div class="hero__search">
+                        <div class="hero__search__form">
+                            <form action="#">
+                                <div class="hero__search__categories">
+                                    All Categories
+                                </div>
+                                <input type="text" placeholder="What do you need?">
+                                <button type="submit" class="site-btn">SEARCH</button>
+                            </form>
+                        </div>
+                        <div class="hero__search__phone">
+                            <div class="hero__search__phone__icon">
+                                <i class="fa fa-phone"></i>
+                            </div>
+                            <div class="hero__search__phone__text">
+                                <h5>0918044509</h5>
+                                <span>support 24/7 time</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="hero__item set-bg" data-setbg="/SHOP_GUITAR/templates/shop/assets/images/hero/banner_img.png">
+                        <div class="hero__text">
+                            <span>SHOP GUITAR</span>
+                            <h2>Home of the World's <br> Finest Guitars</h2>
+                            <p>See our latest new and pre-owned guitars in Just Arrived</p>
+                            <a href="/SHOP_GUITAR/cat.php?id=<?php echo $Cat['id'];?>" class="primary-btn">SHOP NOW</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Hero Section End -->

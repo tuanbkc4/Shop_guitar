@@ -101,7 +101,7 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/SHOP_GUITAR/templates/admin/inc/sideb
                                             $name = $picture['name'][$i];
                                             $tmp = explode(".", $name);
                                             $file_extension = end($tmp);
-                                            $nameSaveFile = "SG - " . time() . $i . '.' . $file_extension;
+                                            $nameSaveFile = "SG-" . time() . $i . '.' . $file_extension;
 
                                             $tmp_name = $picture['tmp_name'][$i];
                                             $path_upload = $_SERVER['DOCUMENT_ROOT'] . '/SHOP_GUITAR/files/images/products/' . $nameSaveFile;

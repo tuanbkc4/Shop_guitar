@@ -28,36 +28,39 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/SHOP_GUITAR/templates/admin/inc/sideb
                 <a class="col-md-2 btn-custom" href="add.php">Add Product</a>
             </div>
         </div>
-        <?php
-        if (isset($_GET['msgSuccess'])) {
-            $msgSuccess = $_GET['msgSuccess'];
-        ?>
-            <div class="alert alert-success alert-dismissible fade show mb-2" role="alert">
-                <strong><?php echo $msgSuccess; ?></strong>
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
+        <div class="container p-0">
+            <?php
+            if (isset($_GET['msgSuccess'])) {
+                $msgSuccess = $_GET['msgSuccess'];
+            ?>
+                <div class="alert alert-success alert-dismissible fade show mb-2" role="alert">
+                    <strong><?php echo $msgSuccess; ?></strong>
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
 
-        <?php
-        }
-        ?>
+            <?php
+            }
+            ?>
 
-        <?php
-        if (isset($_GET['msgDanger'])) {
-            $msgDanger = $_GET['msgDanger'];
-        ?>
-            <div class="alert alert-danger alert-dismissible fade show mb-2" role="alert">
-                <strong><?php echo $msgDanger; ?></strong>
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
+            <?php
+            if (isset($_GET['msgDanger'])) {
+                $msgDanger = $_GET['msgDanger'];
+            ?>
+                <div class="alert alert-danger alert-dismissible fade show mb-2" role="alert">
+                    <strong><?php echo $msgDanger; ?></strong>
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
 
-        <?php
-        }
-        ?>
+            <?php
+            }
+            ?>
+        </div>
         <div class="container bg-white p-0">
+
             <table class="table table-bordered">
                 <thead class="thead-dark text-center">
                     <tr>
@@ -71,7 +74,7 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/SHOP_GUITAR/templates/admin/inc/sideb
                 </thead>
                 <tbody>
                     <?php
-                    $queryGetProduct = "SELECT p.*,cat.name AS catName FROM product AS p INNER JOIN category AS cat ON p.category_id = cat.id";
+                    $queryGetProduct = "SELECT p.*,cat.name AS catName FROM product AS p INNER JOIN category AS cat ON p.category_id = cat.id ORDER BY p.id DESC";
                     $result = $conn->query($queryGetProduct);
                     $index = 1;
                     if ($result->num_rows > 0) {
@@ -79,14 +82,14 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/SHOP_GUITAR/templates/admin/inc/sideb
                     ?>
                             <tr>
                                 <td scope="row" class="text-center"><?php echo $index++ ?></td>
-                                <td class="text-center">
+                                <td class="pl-4">
                                     <?php echo $arProducts['name'] ?>
                                 </td>
-                                <td class="text-center">
+                                <td class="pl-4">
                                     <?php echo $arProducts['catName'] ?>
                                 </td>
-                                <td class="text-center">
-                                    <?php echo $arProducts['price'] ?>
+                                <td class="pl-4">
+                                    <?php echo number_format($arProducts['price'], 0, '.', ',') ?>
                                 </td>
                                 <td class="text-center">
                                     <?php echo $arProducts['quantity'] ?>
@@ -141,8 +144,8 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/SHOP_GUITAR/templates/admin/inc/sideb
     <!-- content-wrapper ends -->
     <!-- partial:partials/_footer.html -->
     <script>
-        var arRemove=document.querySelectorAll('.remove');
-        arRemove.forEach(function(item){
+        var arRemove = document.querySelectorAll('.remove');
+        arRemove.forEach(function(item) {
             item.onclick = function() {
                 confirm('Bạn có chắc chắn muốn xoá không !!!')
             }
