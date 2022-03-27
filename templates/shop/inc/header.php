@@ -25,10 +25,28 @@ include_once $_SERVER['DOCUMENT_ROOT'] . '/SHOP_GUITAR/Util/dbconnect.php';
     <link rel="stylesheet" href="/SHOP_GUITAR/templates/shop/assets/css/owl.carousel.min.css" type="text/css">
     <link rel="stylesheet" href="/SHOP_GUITAR/templates/shop/assets/css/slicknav.min.css" type="text/css">
     <link rel="stylesheet" href="/SHOP_GUITAR/templates/shop/assets/css/style.css" type="text/css">
+    <link rel="stylesheet" href="/SHOP_GUITAR/templates/shop/assets/css/alertify.min.css" type="text/css">
+    <link rel="stylesheet" href="/SHOP_GUITAR/templates/shop/assets/css/default.min.css" type="text/css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.1/css/font-awesome.css" integrity="sha512-LKG0Zi6duJ5mwncLtQVchN0iF8fWmcxApuX9pqGq7ITgwQDWR9EqZFsrV9TXfE9pPRa1J6GVnsBl7gKxAyllaA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+
+    <!-- js -->
+    <script src="/SHOP_GUITAR/templates/shop/assets/js/jquery-3.3.1.min.js"></script>
+
 </head>
 
 <body>
+    <?php
+    if (isset($_SESSION['cart'])) {
+        $cart = $_SESSION['cart'];
+        $total_price = 0;
+        $total_qty=0;
+        foreach($cart as $item){
+            $total_qty += $item['quantity'];
+            $total_price += $item['quantity']*$item['price'];
+        }
+    }
+    ?>
     <!-- Page Preloder -->
     <div id="preloder">
         <div class="loader"></div>
@@ -42,10 +60,9 @@ include_once $_SERVER['DOCUMENT_ROOT'] . '/SHOP_GUITAR/Util/dbconnect.php';
         </div>
         <div class="humberger__menu__cart">
             <ul>
-                <li><a href="#"><i class="fa fa-heart"></i> <span>1</span></a></li>
-                <li><a href="#"><i class="fa fa-shopping-bag"></i> <span>3</span></a></li>
+                <li><a href="cart.php"><i class="fa fa-shopping-cart" aria-hidden="true"></i></i> <span class="quantity_item_cart">0</span></a></li>
             </ul>
-            <div class="header__cart__price">item: <span>$150.00</span></div>
+            <div class="header__cart__price">item: <span class="price_cart">0đ</span></div>
         </div>
         <div class="humberger__menu__widget">
             <div class="header__top__right__language">
@@ -63,13 +80,13 @@ include_once $_SERVER['DOCUMENT_ROOT'] . '/SHOP_GUITAR/Util/dbconnect.php';
         </div>
         <nav class="humberger__menu__nav mobile-menu">
             <ul>
-                <?php 
-                  $queryCat = "SELECT id FROM category WHERE parent_id IS NOT NULL LIMIT 1";
-                  $resultCat = $conn->query($queryCat); 
-                  $Cat = $resultCat->fetch_assoc();
+                <?php
+                $queryCat = "SELECT id FROM category WHERE parent_id IS NOT NULL LIMIT 1";
+                $resultCat = $conn->query($queryCat);
+                $Cat = $resultCat->fetch_assoc();
                 ?>
                 <li class="active"><a href="/SHOP_GUITAR/index.php">Home</a></li>
-                <li><a href="/SHOP_GUITAR/cat.php?id=<?php echo $Cat['id'];?>">Shop</a></li>
+                <li><a href="/SHOP_GUITAR/cat.php?id=<?php echo $Cat['id']; ?>">Shop</a></li>
                 <li>Pages
                     <ul class="header__menu__dropdown">
                         <li><a href="/SHOP_GUITAR/detail.php">Shop Details</a></li>
@@ -145,7 +162,7 @@ include_once $_SERVER['DOCUMENT_ROOT'] . '/SHOP_GUITAR/Util/dbconnect.php';
                     <nav class="header__menu">
                         <ul>
                             <li class="active"><a href="/SHOP_GUITAR/index.php">Home</a></li>
-                            <li><a href="/SHOP_GUITAR/cat.php?id=<?php echo $Cat['id'];?>">Shop</a></li>
+                            <li><a href="/SHOP_GUITAR/cat.php?id=<?php echo $Cat['id']; ?>">Shop</a></li>
                             <li><a href="#">Pages</a>
                                 <ul class="header__menu__dropdown">
                                     <li><a href="/SHOP_GUITAR/detail.php">Shop Details</a></li>
@@ -160,10 +177,9 @@ include_once $_SERVER['DOCUMENT_ROOT'] . '/SHOP_GUITAR/Util/dbconnect.php';
                 <div class="col-lg-3">
                     <div class="header__cart">
                         <ul>
-                            <li><a href="#"><i class="fa fa-heart"></i> <span>1</span></a></li>
-                            <li><a href="#"><i class="fa fa-shopping-bag"></i> <span>3</span></a></li>
+                            <li><a href="cart.php"><i class="fa fa-shopping-cart" aria-hidden="true"></i></i> <span class="quantity_item_cart"><?php echo $total_qty;?></span></a></li>
                         </ul>
-                        <div class="header__cart__price">item: <span>$150.00</span></div>
+                        <div class="header__cart__price">item: <span class="price_cart"><?php echo number_format($total_price, 0, '.', ',') ?> đ</span></div>
                     </div>
                 </div>
             </div>
@@ -208,7 +224,7 @@ include_once $_SERVER['DOCUMENT_ROOT'] . '/SHOP_GUITAR/Util/dbconnect.php';
                             <span>SHOP GUITAR</span>
                             <h2>Home of the World's <br> Finest Guitars</h2>
                             <p>See our latest new and pre-owned guitars in Just Arrived</p>
-                            <a href="/SHOP_GUITAR/cat.php?id=<?php echo $Cat['id'];?>" class="primary-btn">SHOP NOW</a>
+                            <a href="/SHOP_GUITAR/cat.php?id=<?php echo $Cat['id']; ?>" class="primary-btn">SHOP NOW</a>
                         </div>
                     </div>
                 </div>

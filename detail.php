@@ -66,12 +66,12 @@ $category_id = $product['category_id'];
                     <div class="product__details__quantity">
                         <div class="quantity">
                             <div class="pro-qty">
-                                <input type="text" value="1">
+                                <input type="text" value="1" class="qty">
                             </div>
                         </div>
                     </div>
                     <a href="#" class="primary-btn">BUY NOW</a>
-                    <a href="#" class="cart-icon"><i class="fa fa-shopping-cart" aria-hidden="true"></i></span></a>
+                    <a href="javascript:void(0)" class="cart-icon" onclick="addCart(<?php echo $id;?>)"><i class="fa fa-shopping-cart" aria-hidden="true"></i></span></a>
                     <ul>
                         <li><b>Availability</b> <span>In Stock</span></li>
                         <li><b>Share on</b>
@@ -156,7 +156,7 @@ $category_id = $product['category_id'];
                                     <li>
                                         <p class="m-0"><a href="#" class="btn btn-success">Buy now</i></a></p>
                                     </li>
-                                    <li><a href="#"><i class="fa fa-shopping-cart"></i></a></li>
+                                    <li><a href="javascript:void(0)" onclick="addCart(<?php echo $products['id'];?>)"><i class="fa fa-shopping-cart"></i></a></li>
                                 </ul>
                             </div>
                             <div class="product__item__text">
@@ -251,7 +251,47 @@ $category_id = $product['category_id'];
 <script src="/SHOP_GUITAR/templates/shop/assets/js/mixitup.min.js"></script>
 <script src="/SHOP_GUITAR/templates/shop/assets/js/owl.carousel.min.js"></script>
 <script src="/SHOP_GUITAR/templates/shop/assets/js/main.js"></script>
-
+<!-- alertify -->
+<script src="/SHOP_GUITAR/templates/shop/assets/js/alertify.min.js"></script>
+<script>
+    var proQty = $('.pro-qty');
+    proQty.prepend('<span class="dec qtybtn">-</span>');
+    proQty.append('<span class="inc qtybtn">+</span>');
+    proQty.on('click', '.qtybtn', function() {
+        var $button = $(this);
+        var oldValue = $button.parent().find('input').val();
+        if ($button.hasClass('inc')) {
+            var newVal = parseFloat(oldValue) + 1;
+        } else {
+            // Don't allow decrementing below zero
+            if (oldValue > 0) {
+                var newVal = parseFloat(oldValue) - 1;
+            } else {
+                newVal = 0;
+            }
+        }
+        $button.parent().find('input').val(newVal);
+    });
+    
+    let quantity = $('.qty').val();
+    function addCart(id){
+        $.ajax({
+            url: 'ajax/cart/addToCart.php',
+            type: 'POST',
+            cache: false,
+            data: { 
+                id: id,
+                quantity: quantity,
+            },
+            success: function(data) {
+                alertify.success('Thêm vào giỏ hàng thành công');
+            },
+            error: function() {
+                alert('Đã có lỗi xảy ra');
+            }
+        });
+    }
+</script>
 
 </body>
 

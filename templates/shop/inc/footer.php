@@ -67,13 +67,16 @@
 <!-- Footer Section End -->
 
 <!-- Js Plugins -->
-<script src="/SHOP_GUITAR/templates/shop/assets/js/jquery-3.3.1.min.js"></script>
+
 <script src="/SHOP_GUITAR/templates/shop/assets/js/bootstrap.min.js"></script>
 <script src="/SHOP_GUITAR/templates/shop/assets/js/jquery-ui.min.js"></script>
 <script src="/SHOP_GUITAR/templates/shop/assets/js/jquery.slicknav.js"></script>
 <script src="/SHOP_GUITAR/templates/shop/assets/js/mixitup.min.js"></script>
 <script src="/SHOP_GUITAR/templates/shop/assets/js/owl.carousel.min.js"></script>
 <script src="/SHOP_GUITAR/templates/shop/assets/js/main.js"></script>
+<!-- alertify -->
+<script src="/SHOP_GUITAR/templates/shop/assets/js/alertify.min.js"></script>
+
 
 
 

@@ -181,7 +181,7 @@ if (is_numeric($id)) {
                                             <li>
                                                 <p class="m-0"><a href="#" class="btn btn-success">Buy now</i></a></p>
                                             </li>
-                                            <li><a href="#"><i class="fa fa-shopping-cart"></i></a></li>
+                                            <li><a href="javascript:void(0)" onclick="addCart(<?php echo $products['id']; ?>)"><i class="fa fa-shopping-cart"></i></a></li>
                                         </ul>
                                     </div>
                                     <div class="product__item__text">
@@ -215,7 +215,27 @@ if (is_numeric($id)) {
     </div>
 </section>
 <!-- Product Section End -->
+<script>
+    let quantity = $('.qty').val();
 
+    function addCart(id) {
+        $.ajax({
+            url: 'ajax/cart/addToCart.php',
+            type: 'POST',
+            cache: false,
+            data: {
+                id: id,
+                quantity: quantity,
+            },
+            success: function(data) {
+                alertify.success('Thêm vào giỏ hàng thành công');
+            },
+            error: function() {
+                alert('Đã có lỗi xảy ra');
+            }
+        });
+    }
+</script>
 <!-- footer -->
 <?php
 require_once $_SERVER['DOCUMENT_ROOT'] . '/SHOP_GUITAR/templates/shop/inc/footer.php';
