@@ -68,14 +68,14 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/SHOP_GUITAR/templates/admin/inc/sideb
                                 $picture = $_FILES['picture'];
                                 $count_picture = count($_FILES['picture']['name']);
                                 if (strlen($_FILES['picture']['name']['0']) > 0) {
-                                    $allowed = array('jpg', 'jpeg', 'png', 'pdf');
+                                    $allowed = array('jpg', 'jpeg', 'png', 'gif');
                                     if ($count_picture > 5) {
                                         $pictureErr = "Số lượng ảnh upload không được quá 5 files";
                                     } else {
                                         for ($i = 0; $i < $count_picture; $i++) {
                                             $name = $picture['name'][$i];
                                             $tmp = explode(".", $name);
-                                            $file_extension = end($tmp);
+                                            $file_extension = strtolower(end($tmp));
                                             if (!in_array($file_extension, $allowed)) {
                                                 $pictureErr = "files không hợp lệ";
                                             }
@@ -100,7 +100,7 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/SHOP_GUITAR/templates/admin/inc/sideb
                                         for ($i = 0; $i < $count_picture; $i++) {
                                             $name = $picture['name'][$i];
                                             $tmp = explode(".", $name);
-                                            $file_extension = end($tmp);
+                                            $file_extension = strtolower(end($tmp));
                                             $nameSaveFile = "SG-" . time() . $i . '.' . $file_extension;
 
                                             $tmp_name = $picture['tmp_name'][$i];
@@ -195,9 +195,6 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/SHOP_GUITAR/templates/admin/inc/sideb
                                 <label class="dandev_insert_attach"><span>Add file +</span></label>
                                 <div class="wrap">
                                     <div class="dandev-reviews">
-                                        <!-- <div class="form_upload">
-                                            <label class="dandev_insert_attach"><span><ion-icon name="cloud-upload-outline"></ion-icon> Select image</span></label>
-                                        </div> -->
                                         <div class="list_attach">
                                             <ul class="dandev_attach_view">
                                                 <span class="dandev_insert_attach"><i class="dandev-plus">+</i></span>

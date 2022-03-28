@@ -416,9 +416,13 @@ ol {
 }
 
 .header__top__right__auth a {
-    display: block;
+    display: inline-block;
     font-size: 14px;
     color: #1c1c1c;
+}
+
+.header__top__right__auth a:hover {
+    text-decoration: underline;
 }
 
 .header__top__right__auth a i {
@@ -3581,4 +3585,11 @@ ol {
     cursor: pointer;
     color: rgb(0, 59, 8);
     text-decoration: underline;
+}
+
+.user img {
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    margin-right: 8px;
 }

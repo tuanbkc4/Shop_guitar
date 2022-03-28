@@ -1,6 +1,7 @@
 <?php
 session_start();
 ob_start();
+$_SESSION['back'] = $_SERVER['REQUEST_URI'];
 include_once $_SERVER['DOCUMENT_ROOT'] . '/SHOP_GUITAR/Util/dbconnect.php';
 ?>
 <!DOCTYPE html>
@@ -36,17 +37,7 @@ include_once $_SERVER['DOCUMENT_ROOT'] . '/SHOP_GUITAR/Util/dbconnect.php';
 </head>
 
 <body>
-    <?php
-    if (isset($_SESSION['cart'])) {
-        $cart = $_SESSION['cart'];
-        $total_price = 0;
-        $total_qty=0;
-        foreach($cart as $item){
-            $total_qty += $item['quantity'];
-            $total_price += $item['quantity']*$item['price'];
-        }
-    }
-    ?>
+
     <!-- Page Preloder -->
     <div id="preloder">
         <div class="loader"></div>
@@ -59,10 +50,30 @@ include_once $_SERVER['DOCUMENT_ROOT'] . '/SHOP_GUITAR/Util/dbconnect.php';
             <a href="#"><img src="/SHOP_GUITAR/templates/shop/assets/images/logo.png" alt=""></a>
         </div>
         <div class="humberger__menu__cart">
-            <ul>
-                <li><a href="cart.php"><i class="fa fa-shopping-cart" aria-hidden="true"></i></i> <span class="quantity_item_cart">0</span></a></li>
-            </ul>
-            <div class="header__cart__price">item: <span class="price_cart">0đ</span></div>
+            <?php
+            if (isset($_SESSION['cart'])) {
+                $cart = $_SESSION['cart'];
+                $total_price = 0;
+                $total_qty = 0;
+                foreach ($cart as $item) {
+                    $total_qty += $item['quantity'];
+                    $total_price += $item['quantity'] * $item['price'];
+                }
+            ?>
+                <ul>
+                    <li><a href="cart.php"><i class="fa fa-shopping-cart" aria-hidden="true"></i></i> <span class="quantity_item_cart"><?php echo $total_qty; ?></span></a></li>
+                </ul>
+                <div class="header__cart__price">item: <span class="price_cart"><?php echo number_format($total_price, 0, '.', ',') ?> đ</span></div>
+            <?php
+            } else {
+            ?>
+                <ul>
+                    <li><a href="cart.php"><i class="fa fa-shopping-cart" aria-hidden="true"></i></i> <span class="quantity_item_cart">0</span></a></li>
+                </ul>
+                <div class="header__cart__price">item: <span class="price_cart">0đ</span></div>
+            <?php
+            }
+            ?>
         </div>
         <div class="humberger__menu__widget">
             <div class="header__top__right__language">
@@ -75,7 +86,7 @@ include_once $_SERVER['DOCUMENT_ROOT'] . '/SHOP_GUITAR/Util/dbconnect.php';
                 </ul>
             </div>
             <div class="header__top__right__auth">
-                <a href="#"><i class="fa fa-user"></i> Login</a>
+                <a href="auth/login.php"><i class="fa fa-user"></i> Login </a> | <a href="auth/signup.php"> Register </i> </a>
             </div>
         </div>
         <nav class="humberger__menu__nav mobile-menu">
@@ -118,7 +129,7 @@ include_once $_SERVER['DOCUMENT_ROOT'] . '/SHOP_GUITAR/Util/dbconnect.php';
         <div class="header__top">
             <div class="container">
                 <div class="row">
-                    <div class="col-lg-6 col-md-6">
+                    <div class="col-lg-4 col-md-4">
                         <div class="header__top__left">
                             <ul>
                                 <li><i class="fa fa-envelope"></i> tuanbachkhoadn@gmail.com</li>
@@ -126,7 +137,7 @@ include_once $_SERVER['DOCUMENT_ROOT'] . '/SHOP_GUITAR/Util/dbconnect.php';
                             </ul>
                         </div>
                     </div>
-                    <div class="col-lg-6 col-md-6">
+                    <div class="col-lg-8 col-md-8">
                         <div class="header__top__right">
                             <div class="header__top__right__social">
                                 <a href="#"><i class="fa fa-facebook"></i></a>
@@ -144,7 +155,32 @@ include_once $_SERVER['DOCUMENT_ROOT'] . '/SHOP_GUITAR/Util/dbconnect.php';
                                 </ul>
                             </div>
                             <div class="header__top__right__auth">
-                                <a href="#"><i class="fa fa-user"></i> Login</a>
+
+                                <?php
+                                if (isset($_SESSION['arUser'])) {
+                                ?>
+                                    <div class="user">
+                                        <?php
+                                        if ($_SESSION['arUser']['avt'] != NULL) {
+                                        ?>
+                                            <img src="/SHOP_GUITAR/files/images/avatar/<?php echo $_SESSION['arUser']['avt']; ?>" alt="">
+                                        <?php
+                                        } else {
+                                        ?>
+                                            <img src="/SHOP_GUITAR/files/images/avatar/default.jpg" alt="">
+                                        <?php
+                                        }
+                                        ?>
+                                        <a href="#"><?php echo $_SESSION['arUser']['fullname']; ?></a> | <a href="auth/logout.php"> Logout </i> </a>
+                                    </div>
+                                <?php
+                                } else {
+                                ?>
+                                    <a href="auth/login.php"><i class="fa fa-user"></i> Login </a> | <a href="auth/signup.php"> Register </i> </a>
+                                <?php
+                                }
+                                ?>
+
                             </div>
                         </div>
                     </div>
@@ -176,10 +212,30 @@ include_once $_SERVER['DOCUMENT_ROOT'] . '/SHOP_GUITAR/Util/dbconnect.php';
                 </div>
                 <div class="col-lg-3">
                     <div class="header__cart">
-                        <ul>
-                            <li><a href="cart.php"><i class="fa fa-shopping-cart" aria-hidden="true"></i></i> <span class="quantity_item_cart"><?php echo $total_qty;?></span></a></li>
-                        </ul>
-                        <div class="header__cart__price">item: <span class="price_cart"><?php echo number_format($total_price, 0, '.', ',') ?> đ</span></div>
+                        <?php
+                        if (isset($_SESSION['cart'])) {
+                            $cart = $_SESSION['cart'];
+                            $total_price = 0;
+                            $total_qty = 0;
+                            foreach ($cart as $item) {
+                                $total_qty += $item['quantity'];
+                                $total_price += $item['quantity'] * $item['price'];
+                            }
+                        ?>
+                            <ul>
+                                <li><a href="cart.php"><i class="fa fa-shopping-cart" aria-hidden="true"></i></i> <span class="quantity_item_cart"><?php echo $total_qty; ?></span></a></li>
+                            </ul>
+                            <div class="header__cart__price">item: <span class="price_cart"><?php echo number_format($total_price, 0, '.', ',') ?> đ</span></div>
+                        <?php
+                        } else {
+                        ?>
+                            <ul>
+                                <li><a href="cart.php"><i class="fa fa-shopping-cart" aria-hidden="true"></i></i> <span class="quantity_item_cart">0</span></a></li>
+                            </ul>
+                            <div class="header__cart__price">item: <span class="price_cart">0đ</span></div>
+                        <?php
+                        }
+                        ?>
                     </div>
                 </div>
             </div>
