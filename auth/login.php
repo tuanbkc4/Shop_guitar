@@ -22,7 +22,7 @@ include_once $_SERVER['DOCUMENT_ROOT'] . '/SHOP_GUITAR/Util/checkInput.php';
     <div class="container" id="container">
         <div class="form-container sign-in-container">
             <?php
-            if(isset($_SESSION['username'])){
+            if (isset($_SESSION['username'])) {
                 $username = $_SESSION['username'];
             }
             if (isset($_POST['submit'])) {
@@ -47,7 +47,7 @@ include_once $_SERVER['DOCUMENT_ROOT'] . '/SHOP_GUITAR/Util/checkInput.php';
             <form action="#" method="POST">
                 <h2>Sign in</h2>
                 <label for="username">Username</label>
-                <input type="text" name="username" placeholder="username" id="username" value="<?php echo (isset($username)? $username : "");?>"/>
+                <input type="text" name="username" placeholder="username" id="username" value="<?php echo (isset($username) ? $username : ""); ?>" />
                 <label for="password">Password</label>
                 <input type="password" name="password" placeholder="Name" id="password" />
                 <button name="submit">Sign In</button>
@@ -78,17 +78,22 @@ include_once $_SERVER['DOCUMENT_ROOT'] . '/SHOP_GUITAR/Util/checkInput.php';
     <script src="/SHOP_GUITAR/templates/shop/assets/js/jquery-3.3.1.min.js"></script>
     <script src="/SHOP_GUITAR/templates/shop/assets/js/alertify.min.js"></script>
     <script>
-        if (<?php echo $_SESSION['createAcount']; ?>) {
+        <?php
+        if (isset($_SESSION['createAcount'])) {
+        ?>
             alertify.success('Tạo tài khoản thành công');
-            <?php
+        <?php
             unset($_SESSION['createAcount']);
-            ?>
-        } else {
-            alertify.danger('Tạo tài khoản thất bại');
-            <?php
-            unset($_SESSION['createAcount']);
-            ?>
         }
+
+        if (isset($_GET['msgDanger'])) {
+        ?>
+            alertify.error('<?php echo $_GET['msgDanger']; ?>');
+        <?php
+            unset($_SESSION['createAcount']);
+        }
+
+        ?>
     </script>
 </body>
 

@@ -20,7 +20,8 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/SHOP_GUITAR/templates/shop/inc/header
                         </thead>
                         <tbody>
                             <?php
-                            if (isset($cart)) {
+                            if (isset($_SESSION['cart'])) {
+                                $cart = $_SESSION['cart'];
                                 $total = 0;
                                 foreach ($cart as $id => $item) {
                                     $total += $item['quantity'] * $item['price'];
@@ -28,7 +29,7 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/SHOP_GUITAR/templates/shop/inc/header
                                     <tr>
                                         <td class="shoping__cart__item">
                                             <img style="width: 100px;height:100px;object-fit:cover" src="/SHOP_GUITAR/files/images/products/<?php echo $item['image']; ?>" alt="">
-                                            <a href="detail.php?id=<?php echo $id?>" class="name_item_cart"><?php echo $item['name']; ?></a>
+                                            <a href="detail.php?id=<?php echo $id ?>" class="name_item_cart"><?php echo $item['name']; ?></a>
                                         </td>
                                         <td class="shoping__cart__price">
                                             <?php echo $item['price']; ?>đ
@@ -54,7 +55,7 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/SHOP_GUITAR/templates/shop/inc/header
                                 ?>
 
                             <?php
-                            } 
+                            }
                             ?>
                         </tbody>
                     </table>
@@ -82,10 +83,21 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/SHOP_GUITAR/templates/shop/inc/header
                 <div class="shoping__checkout">
                     <h5>Cart Total</h5>
                     <ul>
-                        <li>Subtotal <span><?php echo number_format($total, 0, '.', ',') ?> đ</span></li>
-                        <li>Total <span><?php echo number_format($total, 0, '.', ',') ?> đ</span></li>
+                        <?php
+                        if (isset($_SESSION['cart'])) {
+                            ?>
+                              <li>Subtotal <span><?php echo number_format($total, 0, '.', ',') ?> đ</span></li>
+                              <li>Total <span><?php echo number_format($total, 0, '.', ',') ?> đ</span></li>                              
+                            <?php
+                        }else{
+                            ?>
+                              <li>Subtotal <span>0 đ</span></li>
+                              <li>Total <span>0 đ</span></li> 
+                            <?php
+                        }
+                        ?>
                     </ul>
-                    <a href="#" class="primary-btn">PROCEED TO CHECKOUT</a>
+                    <a href="checkout.php" class="primary-btn">PROCEED TO CHECKOUT</a>
                 </div>
             </div>
         </div>

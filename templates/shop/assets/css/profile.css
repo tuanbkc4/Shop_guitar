@@ -1,0 +1,80 @@
+/* .main_profile {
+    background-color: #;
+} */
+
+.left_bar {
+    background-color: #F3F6FA;
+    min-height: 500px;
+}
+
+.left_bar ul {
+    color: #000;
+    list-style: none;
+    padding: 12px 16px;
+}
+
+.left_bar ul li {
+    margin: 8px 0;
+}
+
+.left_bar ul a {
+    color: #000;
+    text-decoration: none;
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.left_bar ul a:hover {
+    color: red;
+}
+
+.left_bar ul li i {
+    color: red;
+}
+
+.header {
+    box-shadow: 0 4px 10px -10px rgb(92, 92, 92);
+    margin-bottom: 4px;
+}
+
+.proflie_avatar {
+    border-bottom: 1px solid #ccc;
+    padding-bottom: 8px;
+}
+
+.proflie_avatar img {
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    margin-bottom: 8px;
+}
+
+.main_profile table td {
+    border-top: none;
+    border-bottom: 1px solid #dee2e6;
+}
+
+.main_content .action a {
+    color: blue;
+}
+
+.main_content .action a:hover {
+    cursor: pointer;
+    text-decoration: underline;
+}
+
+.main_content p {
+    margin-bottom: 5px;
+    color: #000;
+}
+
+.error {
+    font-style: italic;
+    color: red;
+    padding-left: 5px;
+}
+
+.default {
+    font-style: italic;
+    color: rgb(21, 0, 114);
+}

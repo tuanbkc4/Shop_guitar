@@ -216,7 +216,6 @@ if (is_numeric($id)) {
 </section>
 <!-- Product Section End -->
 <script>
-    let quantity = $('.qty').val();
 
     function addCart(id) {
         $.ajax({
@@ -225,10 +224,11 @@ if (is_numeric($id)) {
             cache: false,
             data: {
                 id: id,
-                quantity: quantity,
+                quantity: 1,
             },
             success: function(data) {
                 alertify.success('Thêm vào giỏ hàng thành công');
+                console.log(data);
             },
             error: function() {
                 alert('Đã có lỗi xảy ra');

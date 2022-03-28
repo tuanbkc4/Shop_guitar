@@ -4,6 +4,11 @@ function checkEmail($value){
     $flag = preg_match($pattern,$value);    
     return $flag;
 }
+function checkPhone($value){
+    $pattern = '^\+?\d{1,3}?[- .]?\(?(?:\d{2,3})\)?[- .]?\d\d\d[- .]?\d\d\d\d$';
+    $flag = preg_match($pattern,$value);    
+    return $flag;
+}
 function checkUsername($value){
     $pattern = '#^[A-Za-z][A-Za-z0-9_\.]{0,31}$#';//
     $flag = preg_match($pattern,$value);    

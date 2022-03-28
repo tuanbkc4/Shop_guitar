@@ -111,7 +111,6 @@ include_once $_SERVER['DOCUMENT_ROOT'] . '/SHOP_GUITAR/Util/checkInput.php';
                             header('location:login.php');
                             die();
                         } else {
-                            $_SESSION['createAcount'] = false;
                             header('location:login.php');
                             unlink($path_upload);
                             die();
@@ -128,7 +127,6 @@ include_once $_SERVER['DOCUMENT_ROOT'] . '/SHOP_GUITAR/Util/checkInput.php';
                             header('location:login.php');
                             die();
                         } else {
-                            $_SESSION['createAcount'] = false;
                             header('location:login.php');
                             unlink($path_upload);
                             die();

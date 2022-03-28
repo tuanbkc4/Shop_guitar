@@ -26,6 +26,7 @@ include_once $_SERVER['DOCUMENT_ROOT'] . '/SHOP_GUITAR/Util/dbconnect.php';
     <link rel="stylesheet" href="/SHOP_GUITAR/templates/shop/assets/css/owl.carousel.min.css" type="text/css">
     <link rel="stylesheet" href="/SHOP_GUITAR/templates/shop/assets/css/slicknav.min.css" type="text/css">
     <link rel="stylesheet" href="/SHOP_GUITAR/templates/shop/assets/css/style.css" type="text/css">
+    <link rel="stylesheet" href="/SHOP_GUITAR/templates/shop/assets/css/profile.css" type="text/css">
     <link rel="stylesheet" href="/SHOP_GUITAR/templates/shop/assets/css/alertify.min.css" type="text/css">
     <link rel="stylesheet" href="/SHOP_GUITAR/templates/shop/assets/css/default.min.css" type="text/css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.1/css/font-awesome.css" integrity="sha512-LKG0Zi6duJ5mwncLtQVchN0iF8fWmcxApuX9pqGq7ITgwQDWR9EqZFsrV9TXfE9pPRa1J6GVnsBl7gKxAyllaA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
@@ -61,14 +62,14 @@ include_once $_SERVER['DOCUMENT_ROOT'] . '/SHOP_GUITAR/Util/dbconnect.php';
                 }
             ?>
                 <ul>
-                    <li><a href="cart.php"><i class="fa fa-shopping-cart" aria-hidden="true"></i></i> <span class="quantity_item_cart"><?php echo $total_qty; ?></span></a></li>
+                    <li><a href="/SHOP_GUITAR/cart.php"><i class="fa fa-shopping-cart" aria-hidden="true"></i></i> <span class="quantity_item_cart"><?php echo $total_qty; ?></span></a></li>
                 </ul>
                 <div class="header__cart__price">item: <span class="price_cart"><?php echo number_format($total_price, 0, '.', ',') ?> đ</span></div>
             <?php
             } else {
             ?>
                 <ul>
-                    <li><a href="cart.php"><i class="fa fa-shopping-cart" aria-hidden="true"></i></i> <span class="quantity_item_cart">0</span></a></li>
+                    <li><a href="/SHOP_GUITAR/cart.php"><i class="fa fa-shopping-cart" aria-hidden="true"></i></i> <span class="quantity_item_cart">0</span></a></li>
                 </ul>
                 <div class="header__cart__price">item: <span class="price_cart">0đ</span></div>
             <?php
@@ -86,7 +87,32 @@ include_once $_SERVER['DOCUMENT_ROOT'] . '/SHOP_GUITAR/Util/dbconnect.php';
                 </ul>
             </div>
             <div class="header__top__right__auth">
-                <a href="auth/login.php"><i class="fa fa-user"></i> Login </a> | <a href="auth/signup.php"> Register </i> </a>
+
+                <?php
+                if (isset($_SESSION['arUser'])) {
+                ?>
+                    <div class="user">
+                        <?php
+                        if ($_SESSION['arUser']['avt'] != NULL) {
+                        ?>
+                            <img src="/SHOP_GUITAR/files/images/avatar/<?php echo $_SESSION['arUser']['avt']; ?>" alt="">
+                        <?php
+                        } else {
+                        ?>
+                            <img src="/SHOP_GUITAR/files/images/avatar/default.jpg" alt="">
+                        <?php
+                        }
+                        ?>
+                        <a href="/SHOP_GUITAR/profile/"><?php echo $_SESSION['arUser']['fullname']; ?></a> | <a href="/SHOP_GUITAR/auth/logout.php"> Logout </i> </a>
+                    </div>
+                <?php
+                } else {
+                ?>
+                    <a href="/SHOP_GUITAR/auth/login.php"><i class="fa fa-user"></i> Login </a> | <a href="/SHOP_GUITAR/auth/signup.php"> Register </i> </a>
+                <?php
+                }
+                ?>
+
             </div>
         </div>
         <nav class="humberger__menu__nav mobile-menu">
@@ -171,12 +197,12 @@ include_once $_SERVER['DOCUMENT_ROOT'] . '/SHOP_GUITAR/Util/dbconnect.php';
                                         <?php
                                         }
                                         ?>
-                                        <a href="#"><?php echo $_SESSION['arUser']['fullname']; ?></a> | <a href="auth/logout.php"> Logout </i> </a>
+                                        <a href="/SHOP_GUITAR/profile/"><?php echo $_SESSION['arUser']['fullname']; ?></a> | <a href="/SHOP_GUITAR/auth/logout.php"> Logout </i> </a>
                                     </div>
                                 <?php
                                 } else {
                                 ?>
-                                    <a href="auth/login.php"><i class="fa fa-user"></i> Login </a> | <a href="auth/signup.php"> Register </i> </a>
+                                    <a href="/SHOP_GUITAR/auth/login.php"><i class="fa fa-user"></i> Login </a> | <a href="/SHOP_GUITAR/auth/signup.php"> Register </i> </a>
                                 <?php
                                 }
                                 ?>
@@ -223,14 +249,14 @@ include_once $_SERVER['DOCUMENT_ROOT'] . '/SHOP_GUITAR/Util/dbconnect.php';
                             }
                         ?>
                             <ul>
-                                <li><a href="cart.php"><i class="fa fa-shopping-cart" aria-hidden="true"></i></i> <span class="quantity_item_cart"><?php echo $total_qty; ?></span></a></li>
+                                <li><a href="/SHOP_GUITAR/cart.php"><i class="fa fa-shopping-cart" aria-hidden="true"></i></i> <span class="quantity_item_cart"><?php echo $total_qty; ?></span></a></li>
                             </ul>
                             <div class="header__cart__price">item: <span class="price_cart"><?php echo number_format($total_price, 0, '.', ',') ?> đ</span></div>
                         <?php
                         } else {
                         ?>
                             <ul>
-                                <li><a href="cart.php"><i class="fa fa-shopping-cart" aria-hidden="true"></i></i> <span class="quantity_item_cart">0</span></a></li>
+                                <li><a href="/SHOP_GUITAR/cart.php"><i class="fa fa-shopping-cart" aria-hidden="true"></i></i> <span class="quantity_item_cart">0</span></a></li>
                             </ul>
                             <div class="header__cart__price">item: <span class="price_cart">0đ</span></div>
                         <?php

@@ -1,6 +1,9 @@
 <!-- header -->
 <?php
 require_once $_SERVER['DOCUMENT_ROOT'] . '/SHOP_GUITAR/templates/shop/inc/header.php';
+if (!isset($_SESSION['arUser'])) {
+    header("Location:/SHOP_GUITAR/auth/login.php?msgDanger=Vui lòng đăng nhập");
+}
 ?>
 
 <!-- Checkout Section Begin -->
@@ -17,31 +20,34 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/SHOP_GUITAR/templates/shop/inc/header
             <form action="#">
                 <div class="row">
                     <div class="col-lg-6 col-md-6">
-                        <div class="form-group">
+                        <div class="form-group  mb-5 pb-4 border-bottom">
                             <label for="addresss">Address - Phone</label>
-                            <select class="form-control select_address" id="addresss">disabled="disabled"
-                                <option value="">Choose address</option>
-                                <option value="1">1</option>
-                                <option value="2">2</option>
-                                <option value="3">3</option>
-                                <option value="4">4</option>
-                                <option value="5">5</option>
-                            </select>
+                            <?php
+                            $queryGetAddress = "SELECT * FROM address WHERE user_id = {$_SESSION['arUser']['id']}";
+                            $resultGetAddress = $conn->query($queryGetAddress);
+                            if ($resultGetAddress->num_rows > 0) {
+                            ?>
+                                <select class="form-control select_address" id="addresss">
+                                    <?php
+                                    while ($address = $resultGetAddress->fetch_assoc()) {
+                                    ?>
+                                        <option value="<?php echo $address['id'];?>"><?php echo $address['address'];?> - <?php echo $address['phone'];?></option>
+                                    <?php
+                                    }
+                                    ?>
+                                </select>
+                            <?php
+                            }
+                            ?>
+
                         </div>
-                        <div class="checkout__input__checkbox">
-                            <label for="other_address">
-                                Add other address
-                                <input type="checkbox" id="other_address">
-                                <span class="checkmark"></span>
-                            </label>
+                        <div class="checkout__input other_address">
+                            <p>Address:</p>
+                            <input type="text" class="address" readonly>
                         </div>
-                        <div class="checkout__input d-none other_address">
-                            <p>Address<span>*</span></p>
-                            <input type="text">
-                        </div>
-                        <div class="checkout__input d-none other_address">
-                            <p>Phone<span>*</span></p>
-                            <input type="text">
+                        <div class="checkout__input other_address">
+                            <p>Phone:</p>
+                            <input type="text" class="phone" readonly>
                         </div>
                     </div>
                     <div class="col-lg-6 col-md-6">
@@ -49,27 +55,38 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/SHOP_GUITAR/templates/shop/inc/header
                             <h4>Your Order</h4>
                             <div class="checkout__order__products">Products <span>Total</span></div>
                             <ul>
-                                <li>Vegetable’s Package <span>$75.99</span></li>
-                                <li>Fresh Vegetable <span>$151.99</span></li>
-                                <li>Organic Bananas <span>$53.99</span></li>
+                                <?php
+                                if (isset($_SESSION['cart'])) {
+                                    $cart = $_SESSION['cart'];
+                                    $total = 0;
+                                    foreach ($cart as $key => $item) {
+                                        $total += $item['quantity'] * $item['price'];
+                                ?>
+                                        <li><?php echo $item['name']; ?> <span><?php echo number_format($item['quantity'] * $item['price'], 0, '.', ','); ?> đ</span></li>
+                                    <?php
+                                    }
+                                    ?>
                             </ul>
-                            <div class="checkout__order__subtotal">Subtotal <span>$750.99</span></div>
-                            <div class="checkout__order__total">Total <span>$750.99</span></div>
-                            <div class="checkout__input__checkbox">
-                                <label for="payment">
-                                    Check Payment
-                                    <input type="checkbox" id="payment">
-                                    <span class="checkmark"></span>
-                                </label>
-                            </div>
-                            <div class="checkout__input__checkbox">
-                                <label for="paypal">
-                                    Paypal
-                                    <input type="checkbox" id="paypal">
-                                    <span class="checkmark"></span>
-                                </label>
-                            </div>
-                            <button type="submit" class="site-btn">PLACE ORDER</button>
+                            <div class="checkout__order__subtotal">Subtotal <span><?php echo number_format($total, 0, '.', ','); ?> đ</span></div>
+                            <div class="checkout__order__total">Total <span><?php echo number_format($total, 0, '.', ','); ?> đ</span></div>
+                        <?php
+                                }
+                        ?>
+                        <div class="checkout__input__checkbox">
+                            <label for="payment">
+                                Check Payment
+                                <input type="checkbox" id="payment">
+                                <span class="checkmark"></span>
+                            </label>
+                        </div>
+                        <div class="checkout__input__checkbox">
+                            <label for="paypal">
+                                Paypal
+                                <input type="checkbox" id="paypal">
+                                <span class="checkmark"></span>
+                            </label>
+                        </div>
+                        <button type="submit" class="site-btn">PLACE ORDER</button>
                         </div>
                     </div>
                 </div>
@@ -82,16 +99,19 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/SHOP_GUITAR/templates/shop/inc/header
 <script>
     // console.log($('#other_address'));
     // console.log($('.select_address'));
-
-    $('#other_address').click(function() {
-        $('.other_address').toggleClass('d-none');
-        // $('.select_address').attr("disabled", true);
-        if ($('.select_address').attr('disabled')) {
-            $('.select_address').removeAttr('disabled');
-        } else {
-            $('.select_address').attr('disabled', true);
-        }
-    });
+    $('.select_address').change(function(){
+        console.log($('.select_address').val());
+        // console.log($('.address'));
+    });                            
+    // $('#other_address').click(function() {
+    //     $('.other_address').toggleClass('d-none');
+    //     // $('.select_address').attr("disabled", true);
+    //     if ($('.select_address').attr('disabled')) {
+    //         $('.select_address').removeAttr('disabled');
+    //     } else {
+    //         $('.select_address').attr('disabled', true);
+    //     }
+    // });
 </script>
 <!-- footer -->
 <?php
