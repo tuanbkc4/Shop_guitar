@@ -27,13 +27,13 @@ include_once $_SERVER['DOCUMENT_ROOT'] . '/SHOP_GUITAR/Util/checkUser.php';
             </div>
             <ul>
                 <li>
-                    <a data-toggle="collapse " href="#account" aria-expanded="true" aria-controls="account">
+                    <a data-toggle="collapse" href="#account" aria-expanded="false" aria-controls="account">
                         <i class="fa fa-user" aria-hidden="true"></i>
                         <span class="menu-title">My account</span>
                     </a>
                     <div class="collapse show" id="account">
                         <ul class="border-0 pt-0 pb-0 pr-0 pl-4">
-                            <li><a href="/SHOP_GUITAR/profile/index.php">Profile</a></li>
+                            <li><a href="/SHOP_GUITAR/profile/index.php" >Profile</a></li>
                             <li><a href="/SHOP_GUITAR/profile/address/index.php" style="color:red">Addresses</a></li>
                         </ul>
                     </div>
@@ -41,7 +41,7 @@ include_once $_SERVER['DOCUMENT_ROOT'] . '/SHOP_GUITAR/Util/checkUser.php';
                 <li>
                     <a href="/SHOP_GUITAR/profile/purchase.php">
                         <i class="fa fa-bars" aria-hidden="true"></i>
-                        <span class="menu-title">My purchase</span>
+                        <span class="menu-title" >My purchase</span>
                     </a>
                 </li>
             </ul>
@@ -94,7 +94,6 @@ include_once $_SERVER['DOCUMENT_ROOT'] . '/SHOP_GUITAR/Util/checkUser.php';
 
                 // add address
                 if ($addressErr == "" && $phoneErr == "") {
-
                     if (isset($_POST['default'])) {
                         // reset default
                         $qrResetDefault = "UPDATE address SET is_default = 0";
@@ -113,9 +112,8 @@ include_once $_SERVER['DOCUMENT_ROOT'] . '/SHOP_GUITAR/Util/checkUser.php';
                             die();
                         }
                     } else {
-
                         $qrUpdateAddess = "UPDATE address
-                                            SET address = '{$address}',phone = '{$phone}'
+                                            SET address = '{$address}',phone = '{$phone}', is_default = 0
                                             WHERE id = {$id}";
                         $resultUpdateAddess = $conn->query($qrUpdateAddess);
                         if ($resultUpdateAddess) {
@@ -154,7 +152,8 @@ include_once $_SERVER['DOCUMENT_ROOT'] . '/SHOP_GUITAR/Util/checkUser.php';
                     ?>
                 </div>
                 <div class="form-group">
-                    <input type="checkbox" name="default" <?php echo ($is_default ? "checked" : ""); ?>> Set as default address
+                    <input id="checkbox" type="checkbox" name="default" <?php echo ($is_default ? "checked" : ""); ?>>
+                    <label for="checkbox" style="cursor:pointer;">Set as default address</label>
                 </div>
                 <button name="submit" class="btn btn-primary">Submit</button>
 

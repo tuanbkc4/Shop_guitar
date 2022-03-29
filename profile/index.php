@@ -27,7 +27,7 @@ include_once $_SERVER['DOCUMENT_ROOT'] . '/SHOP_GUITAR/Util/checkUser.php';
             </div>
             <ul>
                 <li>
-                    <a data-toggle="collapse " href="#account" aria-expanded="true" aria-controls="account">
+                    <a data-toggle="collapse" href="#account" aria-expanded="false" aria-controls="account">
                         <i class="fa fa-user" aria-hidden="true"></i>
                         <span class="menu-title">My account</span>
                     </a>
@@ -47,27 +47,45 @@ include_once $_SERVER['DOCUMENT_ROOT'] . '/SHOP_GUITAR/Util/checkUser.php';
             </ul>
         </div>
         <div class="col-md-9 main_content">
+            <?php
+            $qrGetAddress = "SELECT * FROM address";
+            $resultGet = $conn->query($qrGetAddress);
+            if ($resultGet->num_rows > 0) {
+                $qrCheckAddressDefault = "SELECT * FROM address WHERE is_default = 1";
+                $resultCheckDefault = $conn->query($qrCheckAddressDefault);
+                if ($resultCheckDefault->num_rows > 0) {
+                    $getAddress = $resultCheckDefault->fetch_assoc();
+                    $address = $getAddress['address'];
+                    $phone = $getAddress['phone'];
+                } else {
+                    $getAddress = $resultGet->fetch_assoc();
+                    $address = $getAddress['address'];
+                    $phone = $getAddress['phone'];
+                }
+            }
+
+            ?>
             <table class="table">
                 <tbody>
                     <tr>
                         <td>Username:</td>
-                        <td>tuan123</td>
+                        <td><?php echo $_SESSION['arUser']['username']; ?></td>
                     </tr>
                     <tr>
                         <td>Fullname:</td>
-                        <td>Bui Duc Tuan</td>
+                        <td><?php echo $_SESSION['arUser']['fullname']; ?></td>
                     </tr>
                     <tr>
                         <td>Email</td>
-                        <td>Tuan@gmail.com</td>
+                        <td><?php echo $_SESSION['arUser']['email']; ?></td>
                     </tr>
                     <tr>
                         <td>Address:</td>
-                        <td>Ha Noi</td>
+                        <td><?php echo (isset($address) ? $address : ""); ?></td>
                     </tr>
                     <tr>
                         <td>Phone</td>
-                        <td>0918044509</td>
+                        <td><?php echo (isset($phone) ? $phone : ""); ?></td>
                     </tr>
 
                 </tbody>

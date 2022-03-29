@@ -17,21 +17,23 @@ if (!isset($_SESSION['arUser'])) {
         </div>
         <div class="checkout__form">
             <h4>Billing Details</h4>
-            <form action="#">
+            
+            <form action="order.php" method="POST">
                 <div class="row">
-                    <div class="col-lg-6 col-md-6">
-                        <div class="form-group  mb-5 pb-4 border-bottom">
+                    <div class="address col-lg-6 col-md-6">
+                        <div class="form-group  mb-4">
                             <label for="addresss">Address - Phone</label>
+
                             <?php
                             $queryGetAddress = "SELECT * FROM address WHERE user_id = {$_SESSION['arUser']['id']}";
                             $resultGetAddress = $conn->query($queryGetAddress);
                             if ($resultGetAddress->num_rows > 0) {
                             ?>
-                                <select class="form-control select_address" id="addresss">
+                                <select class="form-control select_address" id="addresss" name="address">
                                     <?php
                                     while ($address = $resultGetAddress->fetch_assoc()) {
                                     ?>
-                                        <option value="<?php echo $address['id'];?>"><?php echo $address['address'];?> - <?php echo $address['phone'];?></option>
+                                        <option value="<?php echo $address['id']; ?>"><?php echo $address['address']; ?> - <?php echo $address['phone']; ?></option>
                                     <?php
                                     }
                                     ?>
@@ -41,13 +43,22 @@ if (!isset($_SESSION['arUser'])) {
                             ?>
 
                         </div>
-                        <div class="checkout__input other_address">
-                            <p>Address:</p>
-                            <input type="text" class="address" readonly>
-                        </div>
-                        <div class="checkout__input other_address">
-                            <p>Phone:</p>
-                            <input type="text" class="phone" readonly>
+                        <div class="form-group">
+                            <label class="d-block" for="addresss">Payment</label>
+                            <div>
+                                <?php
+                                $queryGetPayment = "SELECT * FROM payment";
+                                $resultGetPayment = $conn->query($queryGetPayment);
+                                $checked = 'checked';
+                                while ($payment = $resultGetPayment->fetch_assoc()) {
+                                ?>
+                                    <input type="radio" id="p-<?php echo $payment['id']; ?>" name="payment" value="<?php echo $payment['id']; ?>" <?php echo $checked; ?>>
+                                    <label for="p-<?php echo $payment['id']; ?>"><?php echo $payment['name']; ?></label><br>
+                                <?php
+                                    $checked = "";
+                                }
+                                ?>
+                            </div>
                         </div>
                     </div>
                     <div class="col-lg-6 col-md-6">
@@ -72,21 +83,7 @@ if (!isset($_SESSION['arUser'])) {
                         <?php
                                 }
                         ?>
-                        <div class="checkout__input__checkbox">
-                            <label for="payment">
-                                Check Payment
-                                <input type="checkbox" id="payment">
-                                <span class="checkmark"></span>
-                            </label>
-                        </div>
-                        <div class="checkout__input__checkbox">
-                            <label for="paypal">
-                                Paypal
-                                <input type="checkbox" id="paypal">
-                                <span class="checkmark"></span>
-                            </label>
-                        </div>
-                        <button type="submit" class="site-btn">PLACE ORDER</button>
+                        <button type="submit" name="submit" class="site-btn">PLACE ORDER</button>
                         </div>
                     </div>
                 </div>
@@ -95,24 +92,7 @@ if (!isset($_SESSION['arUser'])) {
     </div>
 </section>
 <!-- Checkout Section End -->
-<script src="https://code.jquery.com/jquery-3.6.0.js"></script>
-<script>
-    // console.log($('#other_address'));
-    // console.log($('.select_address'));
-    $('.select_address').change(function(){
-        console.log($('.select_address').val());
-        // console.log($('.address'));
-    });                            
-    // $('#other_address').click(function() {
-    //     $('.other_address').toggleClass('d-none');
-    //     // $('.select_address').attr("disabled", true);
-    //     if ($('.select_address').attr('disabled')) {
-    //         $('.select_address').removeAttr('disabled');
-    //     } else {
-    //         $('.select_address').attr('disabled', true);
-    //     }
-    // });
-</script>
+
 <!-- footer -->
 <?php
 require_once $_SERVER['DOCUMENT_ROOT'] . '/SHOP_GUITAR/templates/shop/inc/footer.php';

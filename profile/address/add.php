@@ -27,13 +27,13 @@ include_once $_SERVER['DOCUMENT_ROOT'] . '/SHOP_GUITAR/Util/checkUser.php';
             </div>
             <ul>
                 <li>
-                    <a data-toggle="collapse " href="#account" aria-expanded="true" aria-controls="account">
+                    <a data-toggle="collapse" href="#account" aria-expanded="false" aria-controls="account">
                         <i class="fa fa-user" aria-hidden="true"></i>
                         <span class="menu-title">My account</span>
                     </a>
                     <div class="collapse show" id="account">
                         <ul class="border-0 pt-0 pb-0 pr-0 pl-4">
-                            <li><a href="/SHOP_GUITAR/profile/index.php">Profile</a></li>
+                            <li><a href="/SHOP_GUITAR/profile/index.php" >Profile</a></li>
                             <li><a href="/SHOP_GUITAR/profile/address/index.php" style="color:red">Addresses</a></li>
                         </ul>
                     </div>
@@ -41,7 +41,7 @@ include_once $_SERVER['DOCUMENT_ROOT'] . '/SHOP_GUITAR/Util/checkUser.php';
                 <li>
                     <a href="/SHOP_GUITAR/profile/purchase.php">
                         <i class="fa fa-bars" aria-hidden="true"></i>
-                        <span class="menu-title">My purchase</span>
+                        <span class="menu-title" >My purchase</span>
                     </a>
                 </li>
             </ul>

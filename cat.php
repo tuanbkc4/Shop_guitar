@@ -228,7 +228,6 @@ if (is_numeric($id)) {
             },
             success: function(data) {
                 alertify.success('Thêm vào giỏ hàng thành công');
-                console.log(data);
             },
             error: function() {
                 alert('Đã có lỗi xảy ra');
