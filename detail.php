@@ -1,8 +1,9 @@
 <!-- header -->
 <?php
 require_once $_SERVER['DOCUMENT_ROOT'] . '/SHOP_GUITAR/templates/shop/inc/header.php';
+include_once $_SERVER['DOCUMENT_ROOT'] . '/SHOP_GUITAR/Util/timeAgo.php';
 ?>
-
+<link rel="stylesheet" href="/SHOP_GUITAR/templates/shop/assets/css/comment.css" type="text/css">
 <?php
 //   find items 
 $id = $_GET["id"];
@@ -71,7 +72,7 @@ $category_id = $product['category_id'];
                         </div>
                     </div>
                     <a href="#" class="primary-btn">BUY NOW</a>
-                    <a href="javascript:void(0)" class="cart-icon" onclick="addCart(<?php echo $id;?>)"><i class="fa fa-shopping-cart" aria-hidden="true"></i></span></a>
+                    <a href="javascript:void(0)" class="cart-icon" onclick="addCart(<?php echo $id; ?>)"><i class="fa fa-shopping-cart" aria-hidden="true"></i></span></a>
                     <ul>
                         <li><b>Availability</b> <span>In Stock</span></li>
                         <li><b>Share on</b>
@@ -96,26 +97,145 @@ $category_id = $product['category_id'];
                         </li>
                     </ul>
                     <div class="tab-content">
-                        <div class="tab-pane active" id="tabs-1" role="tabpanel">
+                        <div class="tab-pane " id="tabs-1" role="tabpanel">
                             <div class="product__details__tab__desc">
                                 <?php echo $product['detail']; ?>
                             </div>
                         </div>
 
-                        <div class="tab-pane" id="tabs-2" role="tabpanel">
+                        <div class="tab-pane active" id="tabs-2" role="tabpanel">
                             <div class="product__details__tab__desc">
-                                <h6>Products Infomation</h6>
-                                <p>Vestibulum ac diam sit amet quam vehicula elementum sed sit amet dui.
-                                    Pellentesque in ipsum id orci porta dapibus. Proin eget tortor risus.
-                                    Vivamus suscipit tortor eget felis porttitor volutpat. Vestibulum ac diam
-                                    sit amet quam vehicula elementum sed sit amet dui. Donec rutrum congue leo
-                                    eget malesuada. Vivamus suscipit tortor eget felis porttitor volutpat.
-                                    Curabitur arcu erat, accumsan id imperdiet et, porttitor at sem. Praesent
-                                    sapien massa, convallis a pellentesque nec, egestas non nisi. Vestibulum ac
-                                    diam sit amet quam vehicula elementum sed sit amet dui. Vestibulum ante
-                                    ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae;
-                                    Donec velit neque, auctor sit amet aliquam vel, ullamcorper sit amet ligula.
-                                    Proin eget tortor risus.</p>
+                                <!-- Contenedor Principal -->
+                                <div class="comments-container">
+                                    <ul id="comments-list" class="comments-list">
+                                        <?php
+                                        $queryGetComment = "SELECT c.*, u.fullname,u.avt,u.id AS u_id FROM comment AS c INNER JOIN user AS u ON c.user_id = u.id WHERE product_id = {$id} && parent_id IS NULL";
+                                        $resultGetComment = $conn->query($queryGetComment);
+
+                                        while ($arGetComment = $resultGetComment->fetch_assoc()) {
+                                            $parent_id = $arGetComment['id'];
+                                        ?>
+                                            <li>
+                                                <div class="comment-main-level">
+                                                    <!-- Avatar -->
+                                                    <div class="comment-avatar"><img src="/SHOP_GUITAR/files/images/avatar/<?php echo $arGetComment['avt']; ?>" alt=""></div>
+                                                    <!-- Contenedor del Comentario -->
+                                                    <div class="comment-box">
+                                                        <div class="comment-head">
+                                                            <div>
+                                                                <h6 class="comment-name"><?php echo $arGetComment['fullname']; ?></h6>
+                                                                <span><?php echo time_ago($arGetComment['created_at']); ?></span>
+                                                            </div>
+                                                            <div>
+                                                                <button class="button-reply" name="<?php echo $id ?>,<?php echo $parent_id ?>"><i class="fa fa-reply"></i></button>
+                                                                <?php
+                                                                if (isset($_SESSION['arUser'])) {
+                                                                    if ($arGetComment['u_id'] == $_SESSION['arUser']['id']) {
+                                                                ?>
+                                                                        <i class="fa fa-ellipsis-v manage-comment" aria-hidden="true">
+                                                                            <ul>
+                                                                                <li><button class="edit-parent-comment" value="<?php echo $id; ?>,<?php echo $parent_id; ?>"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> edit</button></li>
+                                                                                <li><button class="remove-parent-comment" value="<?php echo $id; ?>,<?php echo $parent_id; ?>"><i class="fa fa-trash" aria-hidden="true"></i> remove</button></li>
+                                                                            </ul>
+                                                                        </i>
+                                                                <?php
+                                                                    }
+                                                                }
+                                                                ?>
+                                                            </div>
+                                                        </div>
+                                                        <div class="comment-content">
+                                                            <?php echo $arGetComment['content']; ?>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!-- Reply -->
+                                                <ul class="comments-list reply-list reply-list-<?php echo $parent_id; ?>">
+                                                    <?php
+                                                    $queryGetSubComment = "SELECT c.*, u.fullname,u.avt,u.id AS u_id FROM comment AS c INNER JOIN user AS u ON c.user_id = u.id WHERE product_id = {$id} && parent_id = {$parent_id}";
+                                                    $resultGetSubComment = $conn->query($queryGetSubComment);
+                                                    while ($arGetSubComment = $resultGetSubComment->fetch_assoc()) {
+                                                    ?>
+                                                        <li>
+                                                            <!-- Avatar -->
+                                                            <div class="comment-avatar"><img src="/SHOP_GUITAR/files/images/avatar/<?php echo $arGetSubComment['avt']; ?>" alt=""></div>
+                                                            <!-- Contenedor del Comentario -->
+                                                            <div class="comment-box">
+                                                                <div class="comment-head">
+                                                                    <div>
+
+                                                                        <h6 class="comment-name"><?php echo $arGetSubComment['fullname']; ?></h6>
+                                                                        <span><?php echo time_ago($arGetSubComment['created_at']); ?></span>
+                                                                    </div>
+                                                                    <div>
+                                                                        <button class="button-reply" name="<?php echo $id ?>,<?php echo $parent_id ?>"><i class="fa fa-reply"></i></button>
+                                                                        <?php
+                                                                        if (isset($_SESSION['arUser'])) {
+                                                                            if ($arGetSubComment['u_id'] == $_SESSION['arUser']['id']) {
+                                                                        ?>
+                                                                                <i class="fa fa-ellipsis-v manage-comment" aria-hidden="true">
+                                                                                    <ul>
+                                                                                        <li><button class="edit-sub-comment" value="<?php echo $id; ?>,<?php echo $parent_id; ?>,<?php echo $arGetSubComment['id']; ?>"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> edit</button></li>
+                                                                                        <li><button class="remove-sub-comment" value="<?php echo $id; ?>,<?php echo $parent_id; ?>,<?php echo $arGetSubComment['id']; ?>"><i class="fa fa-trash" aria-hidden="true"></i> remove</button></li>
+                                                                                    </ul>
+                                                                                </i>
+                                                                        <?php
+                                                                            }
+                                                                        }
+                                                                        ?>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="comment-content">
+                                                                    <?php echo $arGetSubComment['content']; ?>
+                                                                </div>
+                                                            </div>
+                                                        </li>
+                                                    <?php
+                                                    }
+                                                    ?>
+
+                                                    <?php
+                                                    if (isset($_SESSION['arUser'])) {
+                                                    ?>
+                                                        <li class="d-none">
+                                                            <div class="d-flex align-items-center form-main-comment">
+                                                                <!-- Avatar -->
+                                                                <div class="comment-avatar"><img src="/SHOP_GUITAR/files/images/avatar/<?php echo $_SESSION['arUser']['avt']; ?>" alt=""></div>
+                                                                <form action="javascript:void(0)" method="POST">
+                                                                    <input type="text" class="comment-input reply-<?php echo $parent_id ?> " name="<?php echo $parent_id; ?>" placeholder="Viết bình luận...">
+                                                                    <input type="submit" class="reply-submit d-none" value="<?php echo $id; ?>,<?php echo $_SESSION['arUser']['id']; ?>,<?php echo $parent_id; ?>">
+                                                                </form>
+                                                            </div>
+                                                        </li>
+                                                    <?php
+                                                    }
+                                                    ?>
+
+                                                </ul>
+                                            </li>
+                                        <?php
+                                        }
+                                        ?>
+
+                                        <?php
+                                        if (isset($_SESSION['arUser'])) {
+                                        ?>
+                                            <li>
+                                                <div class="d-flex align-items-center form-main-comment">
+                                                    <!-- Avatar -->
+                                                    <div class="comment-avatar"><img src="/SHOP_GUITAR/files/images/avatar/<?php echo $_SESSION['arUser']['avt']; ?>" alt=""></div>
+
+                                                    <form action="javascript:void(0)" method="POST">
+                                                        <input type="text" class="comment-input comment-main" name="content-main" placeholder="Viết bình luận...">
+                                                        <input type="submit" name="<?php echo $id; ?>,<?php echo $_SESSION['arUser']['id']; ?>" class="d-none comment-submit">
+                                                    </form>
+                                                </div>
+                                            </li>
+                                        <?php
+                                        }
+                                        ?>
+                                    </ul>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -156,7 +276,7 @@ $category_id = $product['category_id'];
                                     <li>
                                         <p class="m-0"><a href="#" class="btn btn-success">Buy now</i></a></p>
                                     </li>
-                                    <li><a href="javascript:void(0)" onclick="addCart(<?php echo $products['id'];?>)"><i class="fa fa-shopping-cart"></i></a></li>
+                                    <li><a href="javascript:void(0)" onclick="addCart(<?php echo $products['id']; ?>)"><i class="fa fa-shopping-cart"></i></a></li>
                                 </ul>
                             </div>
                             <div class="product__item__text">
@@ -272,14 +392,15 @@ $category_id = $product['category_id'];
         }
         $button.parent().find('input').val(newVal);
     });
-    
+
     let quantity = $('.qty').val();
-    function addCart(id){
+
+    function addCart(id) {
         $.ajax({
             url: 'ajax/cart/addToCart.php',
             type: 'POST',
             cache: false,
-            data: { 
+            data: {
                 id: id,
                 quantity: quantity,
             },
@@ -291,6 +412,251 @@ $category_id = $product['category_id'];
             }
         });
     }
+    // comment
+    $(".comments-container").on("click", ".comment-submit", function() {
+        let arInfor = $('.comment-submit').attr("name").split(',');
+        let product_id = arInfor[0];
+        let user_id = arInfor[1];
+        let content = $.trim($('.comment-main').val());
+
+        if (content.length > 0) {
+            $.ajax({
+                url: 'ajax/comment/comment.php',
+                type: 'POST',
+                cache: false,
+                data: {
+                    product_id: product_id,
+                    user_id: user_id,
+                    content: content,
+                },
+                success: function(data) {
+                    $('.comments-container').html(data);
+                },
+                error: function() {
+                    alert('Đã có lỗi xảy ra');
+                }
+            });
+        } else {
+            return;
+        }
+    });
+    // reply comment
+    $(".comments-container").on("click", ".reply-submit", function() {
+        let arInfor = this.value.split(',');
+        let product_id = arInfor[0];
+        let user_id = arInfor[1];
+        let parent_id = arInfor[2];
+
+        let inputComment = ".reply-" + parent_id;
+        let idComment = ".reply-list-" + parent_id;
+        let content = $.trim($(inputComment).val());
+
+        if (content.length > 0) {
+            $.ajax({
+                url: 'ajax/comment/SubComment.php',
+                type: 'POST',
+                cache: false,
+                data: {
+                    product_id: product_id,
+                    user_id: user_id,
+                    content: content,
+                    parent_id: parent_id,
+                },
+                success: function(data) {
+                    $(idComment).html(data);
+                },
+                error: function() {
+                    alert('Đã có lỗi xảy ra');
+                }
+            });
+        } else {
+            return;
+        }
+
+    });
+    // remove parent comment
+    $(".comments-container").on("click", ".remove-parent-comment", function() {
+        let arInfo = this.value.split(',');
+        let product_id = arInfo[0]
+        let parent_id = arInfo[1];
+        console.log(product_id);
+        console.log(parent_id);
+        $.ajax({
+            url: 'ajax/comment/removeComment.php',
+            type: 'POST',
+            cache: false,
+            data: {
+                product_id: product_id,
+                parent_id: parent_id,
+            },
+            success: function(data) {
+                $('.comments-container').html(data);
+            },
+            error: function() {
+                alert('Đã có lỗi xảy ra');
+            }
+        });
+    });
+    // remove sub comment
+    $(".comments-container").on("click", ".remove-sub-comment", function() {
+        let arInfo = this.value.split(',');
+        let product_id = arInfo[0];
+        let parent_id = arInfo[1];
+        let reply_id = arInfo[2];
+        let idComment = ".reply-list-" + parent_id;
+
+        $.ajax({
+            url: 'ajax/comment/removeSubComment.php',
+            type: 'POST',
+            cache: false,
+            data: {
+                product_id: product_id,
+                parent_id: parent_id,
+                reply_id: reply_id,
+            },
+            success: function(data) {
+                $(idComment).html(data);
+            },
+            error: function() {
+                alert('Đã có lỗi xảy ra');
+            }
+        });
+
+    });
+    // get Comment
+    $(".comments-container").on("click", ".edit-parent-comment", function() {
+        let arInfo = this.value.split(',');
+        let product_id = arInfo[0]
+        let parent_id = arInfo[1];
+
+        $.ajax({
+            url: 'ajax/comment/GetComment.php',
+            type: 'POST',
+            cache: false,
+            data: {
+                product_id: product_id,
+                parent_id: parent_id,
+            },
+            success: function(data) {
+                $('.comments-container').html(data);
+            },
+            error: function() {
+                alert('Đã có lỗi xảy ra');
+            }
+        });
+    });
+
+    // update comment
+    $(".comments-container").on("click", ".comment-update", function() {
+        let arInfor = $('.comment-update').attr("name").split(',');
+        let product_id = arInfor[0];
+        let parent_id = arInfor[1];
+        let user_id = arInfor[2];
+        let content = $.trim($('.comment-main').val());
+        if (content.length > 0) {
+            $.ajax({
+                url: 'ajax/comment/UpdateComment.php',
+                type: 'POST',
+                cache: false,
+                data: {
+                    product_id: product_id,
+                    parent_id: parent_id,
+                    user_id: user_id,
+                    content: content,
+                },
+                success: function(data) {
+                    $('.comments-container').html(data);
+                },
+                error: function() {
+                    alert('Đã có lỗi xảy ra');
+                }
+            });
+        } else {
+            return;
+        }
+    });
+
+    // get Sub Comment
+    $(".comments-container").on("click", ".edit-sub-comment", function() {
+        let arInfo = this.value.split(',');
+
+        let product_id = arInfo[0]
+        let parent_id = arInfo[1];
+        let reply_id = arInfo[2];
+        console.log(arInfo);
+        $.ajax({
+            url: 'ajax/comment/getSubComment.php',
+            type: 'POST',
+            cache: false,
+            data: {
+                product_id: product_id,
+                parent_id: parent_id,
+                reply_id: reply_id,
+            },
+            success: function(data) {
+                $('.comments-container').html(data);
+            },
+            error: function() {
+                alert('Đã có lỗi xảy ra');
+            }
+        });
+    });
+
+    // update sub comment
+    $(".comments-container").on("click", ".reply-update", function() {
+        let arInfor = $('.reply-update').attr("name").split(',');
+
+        let product_id = arInfor[0];
+        let parent_id = arInfor[1];
+        let reply_id = arInfor[2];
+
+        let inputComment = ".reply-" + parent_id;
+        let idComment = ".reply-list-" + parent_id;
+        let content = $.trim($(inputComment).val());
+        if (content.length > 0) {
+            $.ajax({
+                url: 'ajax/comment/updateSubComment.php',
+                type: 'POST',
+                cache: false,
+                data: {
+                    product_id: product_id,
+                    parent_id: parent_id,
+                    content: content,
+                    reply_id: reply_id,
+                },
+                success: function(data) {
+                    $(idComment).html(data);
+                },
+                error: function() {
+                    alert('Đã có lỗi xảy ra');
+                }
+            });
+        } else {
+            return;
+        }
+    });
+
+    // reply button
+    $(".comments-container").on("click", ".button-reply", function() {
+        let arInfor = this.name.split(',');
+        let product_id = arInfor[0];
+        let parent_id = arInfor[1];
+        $.ajax({
+            url: 'ajax/comment/reply.php',
+            type: 'POST',
+            cache: false,
+            data: {
+                product_id: product_id,
+                parent_id: parent_id,
+            },
+            success: function(data) {
+                $('.comments-container').html(data);
+            },
+            error: function() {
+                alert('Đã có lỗi xảy ra');
+            }
+        });
+    });
 </script>
 
 </body>

@@ -129,7 +129,6 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/SHOP_GUITAR/templates/shop/inc/header
     // remove item cart
     $(".shoping-cart").on("click", ".remove_item_cart", function() {
         var id = this.name
-        console.log(id);
         $.ajax({
             url: 'ajax/cart/removeItemCart.php',
             type: 'POST',
