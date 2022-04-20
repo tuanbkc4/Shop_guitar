@@ -68,10 +68,10 @@ include_once $_SERVER['DOCUMENT_ROOT'] . '/SHOP_GUITAR/Util/enumOrder.php';
                         <div class="all_order">
                             <?php
                             if (isset($valueSearch) && $valueSearch != "") {
-                                $queryGetOrder = "SELECT * FROM orders WHERE user_id = {$user_id} AND id IN((SELECT od.order_id FROM order_detail AS od INNER JOIN product AS p ON p.id = od.product_id WHERE p.name LIKE '%$valueSearch%'))";
+                                $queryGetOrder = "SELECT * FROM orders WHERE user_id = {$user_id} AND id IN((SELECT od.order_id FROM order_detail AS od INNER JOIN product AS p ON p.id = od.product_id WHERE p.name LIKE '%$valueSearch%')) ORDER BY id DESC";
                                 $resultGetOrder = $conn->query($queryGetOrder);
                             } else {
-                                $queryGetOrder = "SELECT * FROM orders WHERE user_id = {$_SESSION['arUser']['id']}";
+                                $queryGetOrder = "SELECT * FROM orders WHERE user_id = {$_SESSION['arUser']['id']} ORDER BY id DESC";
                                 $resultGetOrder = $conn->query($queryGetOrder);
                             }
                             while ($orders = $resultGetOrder->fetch_assoc()) {

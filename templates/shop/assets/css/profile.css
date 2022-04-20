@@ -5,6 +5,7 @@
 .left_bar {
     background-color: #F3F6FA;
     min-height: 500px;
+    max-height: 600px;
 }
 
 .left_bar ul {

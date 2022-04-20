@@ -96,7 +96,7 @@ if (isset($_POST['id'], $_POST['quantity'])) {
                     <li>Subtotal <span><?php echo number_format($total, 0, '.', ',') ?> đ</span></li>
                     <li>Total <span><?php echo number_format($total, 0, '.', ',') ?> đ</span></li>
                 </ul>
-                <a href="#" class="primary-btn">PROCEED TO CHECKOUT</a>
+                <a href="checkout.php" class="primary-btn checkout_cart">PROCEED TO CHECKOUT</a>
             </div>
         </div>
     </div>

@@ -37,7 +37,7 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/SHOP_GUITAR/templates/shop/inc/header
                                         <td class="shoping__cart__quantity">
                                             <div class="quantity">
                                                 <div class="pro-qty">
-                                                    <input class="qty qty-<?php echo $id; ?>" name="<?php echo $id; ?>" type="number" value="<?php echo $item['quantity']; ?>">
+                                                    <input class="qty qty-<?php echo $id; ?>" name="<?php echo $id; ?>" type="number" min="0" value="<?php echo $item['quantity']; ?>">
                                                 </div>
                                             </div>
                                         </td>
@@ -85,26 +85,38 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/SHOP_GUITAR/templates/shop/inc/header
                     <ul>
                         <?php
                         if (isset($_SESSION['cart'])) {
-                            ?>
-                              <li>Subtotal <span><?php echo number_format($total, 0, '.', ',') ?> đ</span></li>
-                              <li>Total <span><?php echo number_format($total, 0, '.', ',') ?> đ</span></li>                              
-                            <?php
-                        }else{
-                            ?>
-                              <li>Subtotal <span>0 đ</span></li>
-                              <li>Total <span>0 đ</span></li> 
-                            <?php
+                        ?>
+                            <li>Subtotal <span><?php echo number_format($total, 0, '.', ',') ?> đ</span></li>
+                            <li>Total <span><?php echo number_format($total, 0, '.', ',') ?> đ</span></li>
+                        <?php
+                        } else {
+                        ?>
+                            <li>Subtotal <span>0 đ</span></li>
+                            <li>Total <span>0 đ</span></li>
+                        <?php
                         }
                         ?>
                     </ul>
-                    <a href="checkout.php" class="primary-btn">PROCEED TO CHECKOUT</a>
+                    <!-- <a href="checkout.php" class="primary-btn">PROCEED TO CHECKOUT</a> -->
+                    <a href="javascript:void(0)" class="primary-btn checkout_cart">PROCEED TO CHECKOUT</a>
                 </div>
             </div>
         </div>
     </div>
 </section>
 <!-- Shoping Cart Section End -->
+
+<script src="/SHOP_GUITAR/templates/shop/assets/js/jquery-3.3.1.min.js"></script>
+<script src="/SHOP_GUITAR/templates/shop/assets/js/alertify.min.js"></script>
 <script>
+    $('.qty').on('keypress', function (event) {
+        var regex = new RegExp("^[0-9]+$");
+        var key = String.fromCharCode(!event.charCode ? event.which : event.charCode);
+        if (!regex.test(key)) {
+        event.preventDefault();
+        return false;
+        }
+    });
     // change quantity
     $(".shoping-cart").on("change", ".qty", function() {
         var id = this.name
@@ -144,6 +156,15 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/SHOP_GUITAR/templates/shop/inc/header
                 alert('Đã có lỗi xảy ra');
             }
         });
+    });
+
+    $(".shoping-cart").on("click", ".checkout_cart", function() {
+        <?php
+        if (empty($_SESSION['cart']) && empty($_SESSION['buyNow'])) {
+            $_SESSION['orderDanger'] = 'Bạn chưa chọn sản phẩm';
+        }
+        ?>
+        window.location = 'checkout.php';
     });
 </script>
 <!-- footer -->

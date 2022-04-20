@@ -67,11 +67,11 @@ $category_id = $product['category_id'];
                     <div class="product__details__quantity">
                         <div class="quantity">
                             <div class="pro-qty">
-                                <input type="text" value="1" class="qty">
+                                <input type="number" min="0" value="1" class="qty">
                             </div>
                         </div>
                     </div>
-                    <a href="#" class="primary-btn">BUY NOW</a>
+                    <a href="javascript:void(0)" class="primary-btn" onclick="buyNow(<?php echo $product['id']; ?>)">Buy now</i></a>
                     <a href="javascript:void(0)" class="cart-icon" onclick="addCart(<?php echo $id; ?>)"><i class="fa fa-shopping-cart" aria-hidden="true"></i></span></a>
                     <ul>
                         <li><b>Availability</b> <span>In Stock</span></li>
@@ -87,23 +87,24 @@ $category_id = $product['category_id'];
                 </div>
             </div>
             <div class="col-lg-12">
+                <!-- review -->
                 <div class="product__details__tab">
                     <ul class="nav nav-tabs" role="tablist">
                         <li class="nav-item">
                             <a class="nav-link active" data-toggle="tab" href="#tabs-1" role="tab" aria-selected="true">Description</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" data-toggle="tab" href="#tabs-2" role="tab" aria-selected="false">Reviews <span>(1)</span></a>
+                            <a class="nav-link" data-toggle="tab" href="#tabs-2" role="tab" aria-selected="false">Reviews</a>
                         </li>
                     </ul>
                     <div class="tab-content">
-                        <div class="tab-pane " id="tabs-1" role="tabpanel">
+                        <div class="tab-pane active" id="tabs-1" role="tabpanel">
                             <div class="product__details__tab__desc">
                                 <?php echo $product['detail']; ?>
                             </div>
                         </div>
 
-                        <div class="tab-pane active" id="tabs-2" role="tabpanel">
+                        <div class="tab-pane " id="tabs-2" role="tabpanel">
                             <div class="product__details__tab__desc">
                                 <!-- Contenedor Principal -->
                                 <div class="comments-container">
@@ -274,7 +275,7 @@ $category_id = $product['category_id'];
                                 <img src="/SHOP_GUITAR/files/images/products/<?php echo $image['name']; ?>" class="img_product" alt="">
                                 <ul class="product__item__pic__hover">
                                     <li>
-                                        <p class="m-0"><a href="#" class="btn btn-success">Buy now</i></a></p>
+                                        <p class="m-0"><a href="javascript:void(0)" class="btn btn-success" onclick="buyNow(<?php echo $products['id']; ?>)">Buy now</i></a></p>
                                     </li>
                                     <li><a href="javascript:void(0)" onclick="addCart(<?php echo $products['id']; ?>)"><i class="fa fa-shopping-cart"></i></a></li>
                                 </ul>
@@ -374,27 +375,18 @@ $category_id = $product['category_id'];
 <!-- alertify -->
 <script src="/SHOP_GUITAR/templates/shop/assets/js/alertify.min.js"></script>
 <script>
-    var proQty = $('.pro-qty');
-    proQty.prepend('<span class="dec qtybtn">-</span>');
-    proQty.append('<span class="inc qtybtn">+</span>');
-    proQty.on('click', '.qtybtn', function() {
-        var $button = $(this);
-        var oldValue = $button.parent().find('input').val();
-        if ($button.hasClass('inc')) {
-            var newVal = parseFloat(oldValue) + 1;
-        } else {
-            // Don't allow decrementing below zero
-            if (oldValue > 0) {
-                var newVal = parseFloat(oldValue) - 1;
-            } else {
-                newVal = 0;
-            }
+    $('.qty').on('keypress', function (event) {
+        var regex = new RegExp("^[0-9]+$");
+        var key = String.fromCharCode(!event.charCode ? event.which : event.charCode);
+        if (!regex.test(key)) {
+        event.preventDefault();
+        return false;
         }
-        $button.parent().find('input').val(newVal);
     });
-
-    let quantity = $('.qty').val();
-
+    $(".qty").change(function() {        
+        quantity = $(this).val();
+    });
+    // add to cart
     function addCart(id) {
         $.ajax({
             url: 'ajax/cart/addToCart.php',
@@ -411,7 +403,27 @@ $category_id = $product['category_id'];
                 alert('Đã có lỗi xảy ra');
             }
         });
+    };
+
+    //buy now
+    function buyNow(id) {
+        $.ajax({
+            url: 'ajax/cart/buyNow.php',
+            type: 'POST',
+            cache: false,
+            data: {
+                id: id,
+                quantity: quantity,
+            },
+            success: function(data) {
+                window.location = 'checkout.php';
+            },
+            error: function() {
+                alert('Đã có lỗi xảy ra');
+            }
+        });
     }
+
     // comment
     $(".comments-container").on("click", ".comment-submit", function() {
         let arInfor = $('.comment-submit').attr("name").split(',');

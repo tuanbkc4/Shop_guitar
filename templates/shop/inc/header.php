@@ -122,15 +122,8 @@ include_once $_SERVER['DOCUMENT_ROOT'] . '/SHOP_GUITAR/Util/dbconnect.php';
                 $resultCat = $conn->query($queryCat);
                 $Cat = $resultCat->fetch_assoc();
                 ?>
-                <li class="active"><a href="/SHOP_GUITAR/index.php">Home</a></li>
+                <li class="active"><a href="/SHOP_GUITAR/">Home</a></li>
                 <li><a href="/SHOP_GUITAR/cat.php?id=<?php echo $Cat['id']; ?>">Shop</a></li>
-                <li>Pages
-                    <ul class="header__menu__dropdown">
-                        <li><a href="/SHOP_GUITAR/detail.php">Shop Details</a></li>
-                        <li><a href="/SHOP_GUITAR/cart.php">Shoping Cart</a></li>
-                        <li><a href="/SHOP_GUITAR/checkout.php">Check Out</a></li>
-                    </ul>
-                </li>
                 <li><a href="./contact.php">Contact</a></li>
             </ul>
         </nav>
@@ -217,21 +210,14 @@ include_once $_SERVER['DOCUMENT_ROOT'] . '/SHOP_GUITAR/Util/dbconnect.php';
             <div class="row">
                 <div class="col-lg-3">
                     <div class="header__logo">
-                        <a href="/SHOP_GUITAR/index.php"><img src="/SHOP_GUITAR/templates/shop/assets/images/logo.png" alt=""></a>
+                        <a href="/SHOP_GUITAR/"><img src="/SHOP_GUITAR/templates/shop/assets/images/logo.png" alt=""></a>
                     </div>
                 </div>
                 <div class="col-lg-6">
                     <nav class="header__menu">
                         <ul>
-                            <li class="active"><a href="/SHOP_GUITAR/index.php">Home</a></li>
+                            <li><a href="/SHOP_GUITAR/">Home</a></li>
                             <li><a href="/SHOP_GUITAR/cat.php?id=<?php echo $Cat['id']; ?>">Shop</a></li>
-                            <li><a href="#">Pages</a>
-                                <ul class="header__menu__dropdown">
-                                    <li><a href="/SHOP_GUITAR/detail.php">Shop Details</a></li>
-                                    <li><a href="/SHOP_GUITAR/cart.php">Shoping Cart</a></li>
-                                    <li><a href="/SHOP_GUITAR/checkout.php">Check Out</a></li>
-                                </ul>
-                            </li>
                             <li><a href="./contact.php">Contact</a></li>
                         </ul>
                     </nav>

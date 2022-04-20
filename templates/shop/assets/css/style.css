@@ -3593,3 +3593,8 @@ ol {
     border-radius: 50%;
     margin-right: 8px;
 }
+
+.banner__pic img{
+    width: 100%;
+    height: 100%;
+}
