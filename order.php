@@ -16,10 +16,8 @@ $total_price = 0;
 if (isset($_POST['submit'])) {
     if (isset($_SESSION['buyNow'])) {
         $cart = $_SESSION['buyNow'];
-        echo '<pre>';
-        print_r($cart);
-        echo '</pre>';
-        $total_price = (int)$cart['price'];
+
+        $total_price = $cart['price'] * $cart['quantity'];
     } else {
         $cart = $_SESSION['cart'];
         foreach ($cart as $item) {

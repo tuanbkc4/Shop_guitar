@@ -3,6 +3,10 @@ session_start();
 ob_start();
 $_SESSION['back'] = $_SERVER['REQUEST_URI'];
 include_once $_SERVER['DOCUMENT_ROOT'] . '/SHOP_GUITAR/Util/dbconnect.php';
+
+if($_SERVER['REQUEST_URI'] != '/SHOP_GUITAR/checkout.php'){
+    unset($_SESSION['buyNow']);
+}
 ?>
 <!DOCTYPE html>
 <html lang="zxx">

@@ -5,30 +5,6 @@ if (!isset($_SESSION['arUser'])) {
     header("Location:/SHOP_GUITAR/auth/login.php?msgDanger=Vui lòng đăng nhập");
     die();
 }
-
-// echo '<pre>';
-//   print_r($_SESSION['cart']);
-// echo '</pre>';
-
-// if(!isset($_SESSION['cart'])){
-//     echo '<pre>';
-//       print_r($_SESSION['cart']);
-//     echo '</pre>';
-// }else{
-//     echo 'no cart';
-// }
-// if (empty($_SESSION['cart'])) {
-//     $_SESSION['orderDanger'] = 'Bạn chưa chọn sản phẩm';
-//     echo "có session";
-// } else {
-//     echo 'không có session';
-// }
-// if(empty($_SESSION['cart']) && ($_SESSION['buyNow'])){
-//     $_SESSION['orderDanger'] = 'Bạn chưa chọn sản phẩm';
-//     echo "có session";
-// }else{
-//     echo 'không có session';
-// }
 ?>
 <!-- Checkout Section Begin -->
 <section class="checkout spad">

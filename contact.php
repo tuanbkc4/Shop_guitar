@@ -1,6 +1,7 @@
 <!-- header -->
 <?php
 require_once $_SERVER['DOCUMENT_ROOT'] . '/SHOP_GUITAR/templates/shop/inc/header.php';
+include_once $_SERVER['DOCUMENT_ROOT'] . '/SHOP_GUITAR/Util/checkInput.php';
 ?>
 
 <!-- Contact Section Begin -->
@@ -62,28 +63,112 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/SHOP_GUITAR/templates/shop/inc/header
         <div class="row">
             <div class="col-lg-12">
                 <div class="contact__form__title">
-                    <h2>Leave Message</h2>
+                    <h2 id="form_contact">Leave Message</h2>
                 </div>
             </div>
         </div>
-        <form action="#">
+        <?php
+        if (isset($_SESSION['arUser'])) {
+            $name = $_SESSION['arUser']['fullname'];
+            $email = $_SESSION['arUser']['email'];
+        } else {
+            $name = "";
+            $email = "";
+        }
+        $nameErr = "";
+        $emailErr = "";
+        $content = "";
+        $contentErr = "";
+        if (isset($_POST['submit'])) {
+            $name = trim($_POST['name']);
+            $email = trim($_POST['email']);
+            $content = trim($_POST['content']);
+            
+            // kiểm tra
+            // name
+            if ($name == "") {
+                $nameErr = "Vui lòng nhập name";
+            } else {
+                if (!checkName($name)) {
+                    $nameErr = "name không hợp lệ";
+                }
+            }
+
+            // email
+            if ($email == "") {
+                $emailErr = "Vui lòng nhập email";
+            } else {
+                if (!checkEmail($email)) {
+                    $emailErr = "email không hợp lệ";
+                }
+            }
+
+            // content
+            if ($content == "") {
+                $contentErr = "Vui lòng nhập nội dung";
+            }
+
+            if ($nameErr == "" && $emailErr == "" && $contentErr == "") {
+                $qrInsert = "INSERT INTO contact(name,email,content) VALUES ('$name','$email','$content')";
+                $result = $conn->query($qrInsert);
+                if ($result) {
+                    $_SESSION['sendSuccess'] = true;
+                }
+            }
+        }
+        ?>
+        <form action="#form_contact" method="POST">
             <div class="row">
-                <div class="col-lg-6 col-md-6">
-                    <input type="text" placeholder="Your name">
+                <div class="col-lg-6 col-md-6 mb-2">
+                    <input class="mb-0" type="text" name="name" value="<?php echo $name; ?>" placeholder="Your name">
+                    <?php
+                    if ($nameErr != "") {
+                    ?>
+                        <span class="error mb-2"><?php echo $nameErr; ?></span>
+                    <?php
+                    }
+                    ?>
                 </div>
-                <div class="col-lg-6 col-md-6">
-                    <input type="text" placeholder="Your Email">
+                <div class="col-lg-6 col-md-6 mb-2">
+                    <input class="mb-0" type="email" name="email" value="<?php echo $email; ?>" placeholder="Your Email">
+                    <?php
+                    if ($emailErr != "") {
+                    ?>
+                        <span class="error mb-2"><?php echo $emailErr; ?></span>
+                    <?php
+                    }
+                    ?>
+                </div>
+                <div class="col-lg-12">
+                    <textarea class="mb-0" name="content" placeholder="Your message"></textarea>
+                    <?php
+                    if ($contentErr != "") {
+                    ?>
+                        <span class="error mb-2"><?php echo $contentErr; ?></span>
+                    <?php
+                    }
+                    ?>
                 </div>
                 <div class="col-lg-12 text-center">
-                    <textarea placeholder="Your message"></textarea>
-                    <button type="submit" class="site-btn">SEND MESSAGE</button>
+                    <button type="submit" name="submit" class="site-btn">SEND MESSAGE</button>
                 </div>
             </div>
         </form>
     </div>
 </div>
 <!-- Contact Form End -->
-
+<script src="/SHOP_GUITAR/templates/shop/assets/js/jquery-3.3.1.min.js"></script>
+<script src="/SHOP_GUITAR/templates/shop/assets/js/alertify.min.js"></script>
+<script>
+    <?php
+    if (isset($_SESSION['sendSuccess'])) {
+    ?>
+        alertify.success('Gửi liên hệ thành công');
+    <?php
+        unset($_SESSION['sendSuccess']);
+    }
+    ?>
+</script>
 <!-- footer -->
 <?php
 require_once $_SERVER['DOCUMENT_ROOT'] . '/SHOP_GUITAR/templates/shop/inc/footer.php';

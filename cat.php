@@ -1,6 +1,7 @@
 <!-- header -->
 <?php
 require_once $_SERVER['DOCUMENT_ROOT'] . '/SHOP_GUITAR/templates/shop/inc/header.php';
+unset($_SESSION['buyNow']);
 ?>
 
 <?php
