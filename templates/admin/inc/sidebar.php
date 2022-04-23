@@ -44,7 +44,7 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#">
+                <a class="nav-link" href="/SHOP_GUITAR/admin/pages/order">
                     <span class="menu-title">Orders</span>
                     <i class="icon-grid menu-icon"></i>
                 </a>

@@ -2,6 +2,7 @@
 session_start();
 ob_start();
 include_once $_SERVER['DOCUMENT_ROOT'] . '/SHOP_GUITAR/Util/dbconnect.php';
+include_once $_SERVER['DOCUMENT_ROOT'] . '/SHOP_GUITAR/Util/enumOrder.php';
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -26,9 +27,13 @@ include_once $_SERVER['DOCUMENT_ROOT'] . '/SHOP_GUITAR/Util/dbconnect.php';
     <!-- <link rel="stylesheet" href="./css/style.css"> -->
     <link rel="stylesheet" href="/SHOP_GUITAR/templates/admin/assets/css/style.css">
     <link rel="stylesheet" href="/SHOP_GUITAR/templates/admin/assets/css/custom.css">
+    <link rel="stylesheet" href="/SHOP_GUITAR/templates/admin/assets/css/modal.css">
     <!-- End layout styles -->
     <!-- image upload -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.1/css/font-awesome.css" integrity="sha512-LKG0Zi6duJ5mwncLtQVchN0iF8fWmcxApuX9pqGq7ITgwQDWR9EqZFsrV9TXfE9pPRa1J6GVnsBl7gKxAyllaA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <link rel="stylesheet" href="/SHOP_GUITAR/templates/shop/assets/css/alertify.min.css" type="text/css">
+    <link rel="stylesheet" href="/SHOP_GUITAR/templates/shop/assets/css/default.min.css" type="text/css">
 </head>
 
 <body>

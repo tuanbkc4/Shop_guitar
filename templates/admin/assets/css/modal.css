@@ -1,0 +1,94 @@
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 9999;
+    padding: 80px;
+    left: 0;
+    top: 0;
+    overflow: hidden;
+    background-color: rgb(0, 0, 0);
+    background-color: rgba(0, 0, 0, .4);
+}
+
+.modal-content {
+    overflow-y: scroll;
+    background-color: #fefefe;
+    margin: auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 65vw;
+    height: 500px;
+}
+
+.modal-edit{
+    height: 300px !important;
+    
+}
+
+.modal-edit form select{
+    width: 100%;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    padding: 4px 8px;
+    margin-bottom: 16px;
+}
+
+.modal-edit form input[type="submit"]{
+    display: block;
+    padding: 8px 16px;
+    margin-left: auto;
+    color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: green;
+    cursor: pointer;
+}
+.modal-edit form input[type="submit"]:hover{
+    background-color: rgb(20, 110, 20);    
+}
+
+.close {
+    color: #aaaaaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: #000;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.order_item {
+    background-color: #fff;
+    padding: 8px 12px;
+}
+
+.order_item .info_order {
+    padding-bottom: 8px;
+    border-bottom: 1px solid #ccc;
+    margin-bottom: 8px;
+}
+
+.order_item .info_order img {
+    display: inline-block;
+    width: 80px;
+    height: 80px;
+    border-radius: 0px !important;
+}
+
+.order_item .info_order>div {
+    gap: 10px;
+}
+
+.order_item .info_order .name_product {
+    font-size: 15px;
+}
+
+.order_item .price_product {
+    color: red;
+    font-weight: 600;
+    font-size: 15px;
+}
