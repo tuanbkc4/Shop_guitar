@@ -3,6 +3,7 @@ session_start();
 ob_start();
 include_once $_SERVER['DOCUMENT_ROOT'] . '/SHOP_GUITAR/Util/dbconnect.php';
 include_once $_SERVER['DOCUMENT_ROOT'] . '/SHOP_GUITAR/Util/enumOrder.php';
+include_once $_SERVER['DOCUMENT_ROOT'] . '/SHOP_GUITAR/Util/limitContact.php';
 ?>
 <!DOCTYPE html>
 <html lang="en">

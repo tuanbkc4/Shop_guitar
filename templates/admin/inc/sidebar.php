@@ -39,21 +39,21 @@
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="#">
-                    <span class="menu-title">Customs</span>
-                    <i class="icon-chart menu-icon"></i>
+                    <span class="menu-title">Users</span>
+                    <i class="icon-user menu-icon"></i>
                 </a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="/SHOP_GUITAR/admin/pages/order">
                     <span class="menu-title">Orders</span>
-                    <i class="icon-grid menu-icon"></i>
+                    <i class="icon-basket menu-icon"></i>
                 </a>
             </li>
 
             <li class="nav-item">
-                <a class="nav-link" href="#">
-                    <span class="menu-title">Coupons</span>
-                    <i class="icon-grid menu-icon"></i>
+                <a class="nav-link" href="/SHOP_GUITAR/admin/pages/contact">
+                    <span class="menu-title">Contact</span>
+                    <i class="icon-envelope-open menu-icon"></i>
                 </a>
             </li>
             <li class="nav-item nav-category"><span class="nav-link">Accout</span></li>
