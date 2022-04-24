@@ -54,6 +54,10 @@ if (!isset($_SESSION['arUser'])) {
                                         ?>
                                     </select>
                                 <?php
+                                }else{
+                                    $_SESSION['danger'] = "Vui lòng thêm địa chỉ";
+                                    header('location:/SHOP_GUITAR/profile/address/index.php');
+                                    die();
                                 }
                                 ?>
 

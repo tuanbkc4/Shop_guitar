@@ -29,6 +29,25 @@ if (is_numeric($id)) {
                 require_once $_SERVER['DOCUMENT_ROOT'] . '/SHOP_GUITAR/templates/shop/inc/sidebar.php';
                 ?>
             </div>
+            <!--start pagination -->
+            <?php
+            //Tổng số dòng
+            $qrTsd = "SELECT * FROM product WHERE category_id = {$id}";
+            $resultTsd = $conn->query($qrTsd);
+            $Tsd = $resultTsd->num_rows;
+            //Số item trong 1 trang 
+            $row_count = ROW_COUNT;
+            //Tổng số trang
+            $Tst = ceil($Tsd / $row_count);
+            //Trang hiện tại
+            $current_page = 1;
+            if (isset($_GET['page'])) {
+                $current_page = $_GET['page'];
+            }
+            //offset
+            $offset = ($current_page - 1) * $row_count;
+            ?>
+            <!--end pagination -->
             <?php
             $queryListProduct = "SELECT * FROM product WHERE category_id = {$id} ORDER BY id DESC";
             $resultListProduct = $conn->query($queryListProduct);
@@ -66,23 +85,19 @@ if (is_numeric($id)) {
                         ?>
 
                     </div>
-                    <div class="product__pagination">
-                        <a href="#">1</a>
-                        <a href="#">2</a>
-                        <a href="#">3</a>
-                        <a href="#"><i class="fa fa-long-arrow-right"></i></a>
-                    </div>
+                    
                 </div>
-            <?php
-            } else {
-            ?>
-                <div class="col-lg-9 col-md-7">
-                    <h3 class="text-center">Không có sản phẩm</h3>
-                </div>
-            <?php
-            }
-            ?>
         </div>
+    <?php
+            } else {
+    ?>
+        <div class="col-lg-9 col-md-7">
+            <h3 class="text-center">Không có sản phẩm</h3>
+        </div>
+    <?php
+            }
+    ?>
+    </div>
     </div>
 </section>
 <!-- Product Section End -->

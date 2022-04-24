@@ -132,7 +132,7 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/SHOP_GUITAR/templates/admin/inc/sideb
                         <tr>
                             <td colspan="6" class="p-2">
                                 <div class="footer-table">
-                                <div>SHOWING <?php echo $offset + 1; ?>-<?php echo ($current_page == $Tst ? $Tsd : $offset + $row_count); ?> OF <?php echo $Tsd; ?></div>
+                                    <div>SHOWING <?php echo $offset + 1; ?>-<?php echo ($current_page == $Tst ? $Tsd : $offset + $row_count); ?> OF <?php echo $Tsd; ?></div>
                                     <nav class="ml-auto">
                                         <ul class="pagination separated pagination-info">
                                             <?php

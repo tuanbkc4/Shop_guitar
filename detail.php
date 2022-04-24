@@ -383,6 +383,7 @@ $category_id = $product['category_id'];
         return false;
         }
     });
+    let quantity = 1;
     $(".qty").change(function() {        
         quantity = $(this).val();
     });

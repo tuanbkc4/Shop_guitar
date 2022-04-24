@@ -4,7 +4,7 @@
     <nav class="sidebar sidebar-offcanvas" id="sidebar">
         <ul class="nav">
             <li class="nav-item nav-profile">
-                <a href="#" class="nav-link">
+                <a href="/SHOP_GUITAR/profile/" class="nav-link">
                     <div class="profile-image">
                         <?php
                         if ($_SESSION['arUser']['avt'] != null) {

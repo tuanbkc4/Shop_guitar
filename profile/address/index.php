@@ -33,7 +33,7 @@ include_once $_SERVER['DOCUMENT_ROOT'] . '/SHOP_GUITAR/Util/checkUser.php';
                     </a>
                     <div class="collapse show" id="account">
                         <ul class="border-0 pt-0 pb-0 pr-0 pl-4">
-                            <li><a href="/SHOP_GUITAR/profile/index.php" >Profile</a></li>
+                            <li><a href="/SHOP_GUITAR/profile/index.php">Profile</a></li>
                             <li><a href="/SHOP_GUITAR/profile/address/index.php" style="color:red">Addresses</a></li>
                         </ul>
                     </div>
@@ -41,7 +41,7 @@ include_once $_SERVER['DOCUMENT_ROOT'] . '/SHOP_GUITAR/Util/checkUser.php';
                 <li>
                     <a href="/SHOP_GUITAR/profile/purchase.php">
                         <i class="fa fa-bars" aria-hidden="true"></i>
-                        <span class="menu-title" >My purchase</span>
+                        <span class="menu-title">My purchase</span>
                     </a>
                 </li>
             </ul>
@@ -72,7 +72,7 @@ include_once $_SERVER['DOCUMENT_ROOT'] . '/SHOP_GUITAR/Util/checkUser.php';
                             ?>
                         </div>
                         <div class="action">
-                            <a href="edit.php?id=<?php echo $addresses['id']; ?>">edit</a><br/>
+                            <a href="edit.php?id=<?php echo $addresses['id']; ?>">edit</a><br />
                             <a href="remove.php?id=<?php echo $addresses['id']; ?>">remove</a>
                         </div>
                     </div>
@@ -93,6 +93,13 @@ include_once $_SERVER['DOCUMENT_ROOT'] . '/SHOP_GUITAR/Util/checkUser.php';
 <script src="/SHOP_GUITAR/templates/shop/assets/js/alertify.min.js"></script>
 <script>
     <?php
+    if (isset($_SESSION['danger'])) {
+    ?>
+        alertify.error('<?php echo $_SESSION["danger"] ?>');
+    <?php
+        unset($_SESSION['danger']);
+    }
+
     if (isset($_SESSION['createAddress'])) {
     ?>
         alertify.success('Thêm address thành công');
@@ -108,11 +115,11 @@ include_once $_SERVER['DOCUMENT_ROOT'] . '/SHOP_GUITAR/Util/checkUser.php';
     }
 
     if (isset($_SESSION['removeAddress'])) {
-        ?>
-            alertify.success('Xoá address thành công');
-        <?php
-            unset($_SESSION['removeAddress']);
-        }
+    ?>
+        alertify.success('Xoá address thành công');
+    <?php
+        unset($_SESSION['removeAddress']);
+    }
     ?>
 </script>
 <!-- footer -->

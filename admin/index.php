@@ -111,8 +111,27 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/SHOP_GUITAR/templates/admin/inc/sideb
                                     </tr>
                                 </thead>
                                 <tbody>
+                                    <!--start pagination -->
                                     <?php
-                                    $getListOrderConfirm = "SELECT user.*, orders.*,payment.* FROM orders INNER JOIN user ON orders.user_id = user.id INNER JOIN payment ON orders.payment_id = payment.id WHERE status = 0";
+                                    //Tổng số dòng
+                                    $qrTsd = "SELECT * FROM orders WHERE status = 0";
+                                    $resultTsd = $conn->query($qrTsd);
+                                    $Tsd = $resultTsd->num_rows;
+                                    //Số item trong 1 trang 
+                                    $row_count = ROW_COUNT;
+                                    //Tổng số trang
+                                    $Tst = ceil($Tsd / $row_count);
+                                    //Trang hiện tại
+                                    $current_page = 1;
+                                    if (isset($_GET['page'])) {
+                                        $current_page = $_GET['page'];
+                                    }
+                                    //offset
+                                    $offset = ($current_page - 1) * $row_count;
+                                    ?>
+                                    <!--end pagination -->
+                                    <?php
+                                    $getListOrderConfirm = "SELECT user.*, orders.*,payment.* FROM orders INNER JOIN user ON orders.user_id = user.id INNER JOIN payment ON orders.payment_id = payment.id WHERE status = 0 LIMIT {$offset},{$row_count}";
                                     $resultListOrderConfirm = $conn->query($getListOrderConfirm);
                                     if ($resultListOrderConfirm->num_rows > 0) {
                                         while ($row = $resultListOrderConfirm->fetch_assoc()) {
@@ -124,10 +143,10 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/SHOP_GUITAR/templates/admin/inc/sideb
                                                     ?>
                                                         <img class="img-sm rounded-circle" src="/SHOP_GUITAR/files/images/avatar/<?php echo $row['avt']; ?>" alt="profile image"> <?php echo $row['fullname']; ?>
                                                     <?php
-                                                    }else{
-                                                        ?>
-                                                          <img class="img-sm rounded-circle" src="/SHOP_GUITAR/files/images/avatar/default.jpg" alt="profile image"> <?php echo $row['fullname']; ?>
-                                                        <?php
+                                                    } else {
+                                                    ?>
+                                                        <img class="img-sm rounded-circle" src="/SHOP_GUITAR/files/images/avatar/default.jpg" alt="profile image"> <?php echo $row['fullname']; ?>
+                                                    <?php
                                                     }
                                                     ?>
                                                 </td>
@@ -151,25 +170,64 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/SHOP_GUITAR/templates/admin/inc/sideb
                                 </tbody>
                             </table>
                         </div>
-                        <?php
-                        if ($resultListOrderConfirm->num_rows > 10) {
-                        ?>
-                            <div class="d-flex mt-4 flex-wrap">
-                                <p class="text-muted">Showing 1 to 10 of 57 entries</p>
-                                <nav class="ml-auto">
-                                    <ul class="pagination separated pagination-info">
-                                        <li class="page-item"><a href="#" class="page-link"><i class="icon-arrow-left"></i></a></li>
-                                        <li class="page-item active"><a href="#" class="page-link">1</a></li>
-                                        <li class="page-item"><a href="#" class="page-link">2</a></li>
-                                        <li class="page-item"><a href="#" class="page-link">3</a></li>
-                                        <li class="page-item"><a href="#" class="page-link">4</a></li>
-                                        <li class="page-item"><a href="#" class="page-link"><i class="icon-arrow-right"></i></a></li>
-                                    </ul>
-                                </nav>
-                            </div>
-                        <?php
-                        }
-                        ?>
+                        <div class="d-flex mt-4 flex-wrap">
+                            <p class="text-muted">Showing <?php echo $offset + 1; ?> to <?php echo ($current_page == $Tst ? $Tsd : $offset + $row_count); ?> of <?php echo $Tsd; ?> entries</p>
+                            <nav class="ml-auto">
+                                <ul class="pagination separated pagination-info">
+                                    <?php
+                                    if ($current_page > 1) {
+                                        $pre_page = $current_page - 1;
+                                    ?>
+                                        <li class="page-item"><a href="?page=<?php echo $pre_page; ?>" class="page-link"><i class="icon-arrow-left"></i></a></li>
+                                    <?php
+                                    } else {
+                                    ?>
+                                        <li class="page-item"><span class="page-link"><i class="icon-arrow-left"></i></span></li>
+                                    <?php
+                                    }
+                                    if ($current_page > 2) {
+                                    ?>
+                                        <li class="page-item"><span class="page-link">...</span></li>
+                                    <?php
+                                    }
+                                    ?>
+                                    <?php
+                                    for ($i = 1; $i <= $Tst; $i++) {
+                                        if ($i != $current_page) {
+                                            if ($i > $current_page - 2 && $i < $current_page + 2) {
+                                    ?>
+                                                <li class="page-item"><a href="?page=<?php echo $i; ?>" class="page-link"><?php echo $i; ?></a></li>
+                                            <?php
+                                            }
+                                        } else {
+                                            ?>
+                                            <li class="page-item active"><a href="?page=<?php echo $i; ?>" class="page-link"><?php echo $i; ?></a></li>
+
+                                    <?php
+                                        }
+                                    }
+                                    ?>
+                                    <?php
+                                    if ($Tst - $current_page > 1) {
+                                    ?>
+                                        <li class="page-item"><span class="page-link">...</span></li>
+                                    <?php
+                                    }
+
+                                    if ($current_page < $Tst) {
+                                        $next_page = $current_page + 1;
+                                    ?>
+                                        <li class="page-item"><a href="?page=<?php echo $next_page; ?>" class="page-link"><i class="icon-arrow-right"></i></a></li>
+                                    <?php
+                                    } else {
+                                    ?>
+                                        <li class="page-item"><span class="page-link"><i class="icon-arrow-right"></i></span></li>
+                                    <?php
+                                    }
+                                    ?>
+                                </ul>
+                            </nav>
+                        </div>
                     </div>
                 </div>
             </div>

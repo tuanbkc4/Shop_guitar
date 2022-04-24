@@ -93,7 +93,7 @@ include_once $_SERVER['DOCUMENT_ROOT'] . '/SHOP_GUITAR/Util/constant.php';
                                 <p class="mb-1 mt-3"><?php echo $_SESSION['arUser']['fullname'] ?></p>
                                 <p class="font-weight-light text-muted mb-0"><?php echo $_SESSION['arUser']['email'] ?></p>
                             </div>
-                            <a class="dropdown-item"><i class="dropdown-item-icon icon-user text-primary"></i> My Profile </a>
+                            <a href="/SHOP_GUITAR/profile/" class="dropdown-item"><i class="dropdown-item-icon icon-user text-primary"></i> My Profile </a>
                             <a href="/SHOP_GUITAR/admin/auth/logout.php" class="dropdown-item"><i class="dropdown-item-icon icon-power text-primary"></i>Sign Out</a>
                         </div>
                     </li>
