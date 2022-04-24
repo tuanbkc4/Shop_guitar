@@ -135,8 +135,8 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/SHOP_GUITAR/templates/admin/inc/sideb
                     } else {
                     ?>
                         <tr>
-                            <td colspan="6" class="p-2">
-                                <p class="text-center mb-1 mt-1">Không có sản phẩm</p>
+                            <td colspan="7" class="p-2">
+                                <p class="text-center mb-1 mt-1">Không có đơn hàng</p>
                             </td>
                         </tr>
                     <?php

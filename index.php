@@ -161,6 +161,15 @@ if ($resultProductSeller->num_rows >  0) {
     }
     ?>
 
+    <?php
+    if (isset($_SESSION['loginDanger'])) {
+    ?>
+        alertify.error('<?php echo $_SESSION['loginDanger']; ?>');
+    <?php
+        unset($_SESSION['loginDanger']);
+    }
+    ?>
+
     function addCart(id) {
         $.ajax({
             url: 'ajax/cart/addToCart.php',

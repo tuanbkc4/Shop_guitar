@@ -6,16 +6,22 @@
             <li class="nav-item nav-profile">
                 <a href="#" class="nav-link">
                     <div class="profile-image">
-                        <img class="img-xs rounded-circle" src="/SHOP_GUITAR/templates/admin/assets/images/faces/face8.jpg" alt="profile image">
+                        <?php
+                        if ($_SESSION['arUser']['avt'] != null) {
+                        ?>
+                            <img class="img-xs rounded-circle ml-2" src="/SHOP_GUITAR/files/images/avatar/<?php echo  $_SESSION['arUser']['avt']; ?>" alt="Profile image">
+                        <?php
+                        } else {
+                        ?>
+                            <img class="img-xs rounded-circle ml-2" src="/SHOP_GUITAR/files/images/avatar/default.jpg" alt="Profile image">
+                        <?php
+                        }
+                        ?>
                         <div class="dot-indicator bg-success"></div>
                     </div>
                     <div class="text-wrapper">
-                        <p class="profile-name">Admin</p>
+                        <p class="profile-name"><?php echo  $_SESSION['arUser']['fullname']; ?></p>
                         <p class="designation">Administrator</p>
-                    </div>
-                    <div class="icon-container">
-                        <i class="icon-bubbles"></i>
-                        <div class="dot-indicator bg-danger"></div>
                     </div>
                 </a>
             </li>
@@ -38,7 +44,7 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#">
+                <a class="nav-link" href="/SHOP_GUITAR/admin/pages/user">
                     <span class="menu-title">Users</span>
                     <i class="icon-user menu-icon"></i>
                 </a>

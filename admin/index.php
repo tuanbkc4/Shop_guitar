@@ -18,7 +18,7 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/SHOP_GUITAR/templates/admin/inc/sideb
                     </div>
                     <div class="d-md-flex row m-0 quick-action-btns" role="group" aria-label="Quick action buttons">
                         <div class="col-sm-12 col-md-4 p-3 text-center btn-wrapper">
-                            <a href="#">
+                            <a href="/SHOP_GUITAR/admin/pages/user/add.php">
                                 <button type="button" class="btn px-0"> <i class="icon-user mr-2"></i> Add User</button>
                             </a>
                         </div>

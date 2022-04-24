@@ -11,16 +11,16 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/SHOP_GUITAR/templates/admin/inc/sideb
     <div class="content-wrapper">
         <div class="container mb-5">
             <div class="row">
-                <h3 class="mb-3">Contact</h3>
+                <h3 class="mb-3">User</h3>
             </div>
             <div class="row bg-white p-4 rounded-lg justify-content-between">
                 <form class="col-md-9">
                     <div class="row justify-content-between">
-                        <input class="col-md-12 w-full form-input" type="search" name="search" placeholder="Search by contact...">
+                        <input class="col-12 w-full form-input" type="search" name="search" placeholder="Search by user...">
                         <button type="submit" class="d-none absolute right-0 top-0 mt-5 mr-1"></button>
                     </div>
                 </form>
-                <a class="col-md-2 btn-custom" href="add.php">Search</a>
+                <a class="col-md-2 btn-custom" href="add.php">Add User</a>
             </div>
         </div>
         <div class="container p-0">
@@ -60,37 +60,56 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/SHOP_GUITAR/templates/admin/inc/sideb
                 <thead class="thead-dark text-center">
                     <tr>
                         <th scope="col" width="80px">STT</th>
-                        <th scope="col" width="250px">NAME</th>
-                        <th scope="col" width="250px">EMAIL</th>
-                        <th scope="col">CONTENT</th>
-                        <th scope="col" width="200px">ACTION</th>
+                        <th scope="col" width="250px">FULLNAME</th>
+                        <th scope="col" width="200px">USERNAME</th>
+                        <th scope="col">EMAIL</th>
+                        <th scope="col" width="150px">PHONE</th>
+                        <th scope="col" width="150px">ACTION</th>
                     </tr>
                 </thead>
                 <tbody>
                     <?php
-                    $queryGetContact = "SELECT * FROM contact ORDER BY id DESC";
-                    $result = $conn->query($queryGetContact);
+                    $queryGetUser = "SELECT * FROM user";
+                    $result = $conn->query($queryGetUser);
                     $index = 1;
                     if ($result->num_rows > 0) {
-                        while ($arContact = $result->fetch_assoc()) {
+                        while ($arUser = $result->fetch_assoc()) {
                     ?>
                             <tr>
                                 <td scope="row" class="text-center"><?php echo $index++ ?></td>
                                 <td class="pl-4">
-                                    <?php echo $arContact['name'] ?>
+                                    <?php echo $arUser['fullname'] ?>
                                 </td>
                                 <td class="pl-4">
-                                    <?php echo $arContact['email'] ?>
+                                    <?php echo $arUser['username'] ?>
                                 </td>
                                 <td class="pl-4">
-                                    <?php echo sub_str($arContact['content'], 50); ?>
+                                    <?php echo $arUser['email'] ?>
                                 </td>
+                                <?php
+                                $getPhone = "SELECT phone FROM address WHERE user_id = {$arUser['id']} LIMIT 1";
+                                $resultGetPhone = $conn->query($getPhone);
+                                $phone =  $resultGetPhone->fetch_assoc();
+                                ?>
+                                <?php
+                                if ($resultGetPhone->num_rows > 0) {
+                                ?>
+                                    <td class="text-center">
+                                        <?php echo $phone['phone'] ?>
+                                    </td>
+                                <?php
+                                } else {
+                                ?>
+                                    <td class="text-center">
+                                    </td>
+                                <?php
+                                }
+                                ?>
                                 <td class="action_cat">
-                                    <?php
-                                    $contact_id = $arContact['id'];
-                                    include $_SERVER['DOCUMENT_ROOT'] . '/SHOP_GUITAR/admin/pages/contact/detail.php';
-                                    ?>
-                                    <a href="remove.php?id=<?php echo $contact_id; ?>" class="edit">
+                                    <a href="edit.php?id=<?php echo $arUser['id'] ?>" class="edit">
+                                        <ion-icon name="create-outline"></ion-icon>
+                                    </a>
+                                    <a href="#" class="remove">
                                         <ion-icon name="trash-outline"></ion-icon>
                                     </a>
                                 </td>
@@ -99,7 +118,7 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/SHOP_GUITAR/templates/admin/inc/sideb
                         }
                         ?>
                         <tr>
-                            <td colspan="7" class="p-2">
+                            <td colspan="6" class="p-2">
                                 <div class="footer-table">
                                     <div>SHOWING 1-8 OF 18</div>
                                     <nav class="ml-auto">
@@ -120,7 +139,7 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/SHOP_GUITAR/templates/admin/inc/sideb
                     ?>
                         <tr>
                             <td colspan="6" class="p-2">
-                                <p class="text-center mb-1 mt-1">Không có liên hệ</p>
+                                <p class="text-center mb-1 mt-1">Không có user</p>
                             </td>
                         </tr>
                     <?php

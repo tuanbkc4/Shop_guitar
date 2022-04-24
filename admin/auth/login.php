@@ -10,9 +10,10 @@ include_once $_SERVER['DOCUMENT_ROOT'] . '/SHOP_GUITAR/Util/checkInput.php';
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Shop Guitar | Login</title>
+    <title>Admin | Login</title>
     <link rel="stylesheet" href="/SHOP_GUITAR/templates/shop/assets/css/bootstrap.min.css" type="text/css">
     <link rel="stylesheet" href="/SHOP_GUITAR/templates/shop/assets/css/auth.css" type="text/css">
+    <link rel="stylesheet" href="/SHOP_GUITAR/templates/admin/assets/css/auth.css" type="text/css">
     <link rel="stylesheet" href="/SHOP_GUITAR/templates/shop/assets/css/alertify.min.css" type="text/css">
     <link rel="stylesheet" href="/SHOP_GUITAR/templates/shop/assets/css/default.min.css" type="text/css">
 
@@ -22,23 +23,16 @@ include_once $_SERVER['DOCUMENT_ROOT'] . '/SHOP_GUITAR/Util/checkInput.php';
     <div class="container" id="container">
         <div class="form-container sign-in-container">
             <?php
-            if (isset($_SESSION['username'])) {
-                $username = $_SESSION['username'];
-            }
             if (isset($_POST['submit'])) {
                 $username = trim($_POST['username']);
                 $password = md5(trim($_POST['password']));
 
-                $queryGetUser = "SELECT * FROM user WHERE username = '$username' AND password = '$password'";
+                $queryGetUser = "SELECT * FROM user WHERE username = '$username' AND password = '$password' AND role = 1";
                 $result = $conn->query($queryGetUser);
                 $arUser = $result->fetch_assoc();
                 if ($result->num_rows > 0) {
                     $_SESSION['arUser'] = $arUser;
-                    if (isset($_SESSION['back'])) {
-                        header("Location:{$_SESSION['back']}");
-                    } else {
-                        header("Location:/SHOP_GUITAR");
-                    }
+                    header("Location:/SHOP_GUITAR/admin");
                 } else {
                     $error =  "Sai username hoặc password";
                 }
@@ -60,16 +54,6 @@ include_once $_SERVER['DOCUMENT_ROOT'] . '/SHOP_GUITAR/Util/checkInput.php';
                 ?>
             </form>
         </div>
-        <div class="overlay-container">
-            <div class="overlay">
-                <div class="overlay-panel overlay-right">
-                    <h1>Hello, Friend!</h1>
-                    <p>Enter your personal details and start journey with us</p>
-                    <a href="signup.php"><button class="ghost" id="signIn">Sign In</button></a>
-
-                </div>
-            </div>
-        </div>
     </div>
 
     <footer>
@@ -85,14 +69,6 @@ include_once $_SERVER['DOCUMENT_ROOT'] . '/SHOP_GUITAR/Util/checkInput.php';
         <?php
             unset($_SESSION['createAcount']);
         }
-
-        if (isset($_GET['msgDanger'])) {
-        ?>
-            alertify.error('<?php echo $_GET['msgDanger']; ?>');
-        <?php
-            unset($_SESSION['createAcount']);
-        }
-
         ?>
     </script>
 </body>

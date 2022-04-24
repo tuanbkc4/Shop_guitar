@@ -10,7 +10,7 @@ include_once $_SERVER['DOCUMENT_ROOT'] . '/SHOP_GUITAR/Util/checkInput.php';
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Shop Guitar | Login Logout</title>
+    <title>Shop Guitar | Signup</title>
     <link rel="stylesheet" href="/SHOP_GUITAR/templates/shop/assets/css/bootstrap.min.css" type="text/css">
     <link rel="stylesheet" href="/SHOP_GUITAR/templates/shop/assets/css/auth.css" type="text/css">
 
@@ -85,6 +85,12 @@ include_once $_SERVER['DOCUMENT_ROOT'] . '/SHOP_GUITAR/Util/checkInput.php';
                 } else {
                     if (!checkEmail($email)) {
                         $emailErr = "email không hợp lệ";
+                    }else{
+                        $qrCheckEmail = "SELECT * FROM user WHERE email = '$email'";
+                        $resultCheck = $conn->query($qrCheckEmail);
+                        if ($resultCheck->num_rows > 0) {
+                            $emailErr = "email đã tồn tại";
+                        }
                     }
                 }
                 // add user

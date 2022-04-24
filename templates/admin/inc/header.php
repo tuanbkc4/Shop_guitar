@@ -1,6 +1,11 @@
 <?php
 session_start();
 ob_start();
+if (!(isset($_SESSION['arUser']) && $_SESSION['arUser']['role'] == 1)) {
+    $_SESSION['loginDanger'] = "Bạn không có quyền truy cập";
+    header("Location:/SHOP_GUITAR/");
+    die();
+}
 include_once $_SERVER['DOCUMENT_ROOT'] . '/SHOP_GUITAR/Util/dbconnect.php';
 include_once $_SERVER['DOCUMENT_ROOT'] . '/SHOP_GUITAR/Util/enumOrder.php';
 include_once $_SERVER['DOCUMENT_ROOT'] . '/SHOP_GUITAR/Util/limitContact.php';
@@ -43,10 +48,10 @@ include_once $_SERVER['DOCUMENT_ROOT'] . '/SHOP_GUITAR/Util/limitContact.php';
 
         <nav class="navbar default-layout-navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
             <div class="navbar-brand-wrapper d-flex align-items-center">
-                <a class="navbar-brand brand-logo" href="index.php">
+                <a class="navbar-brand brand-logo" href="/SHOP_GUITAR/admin/">
                     <img src="/SHOP_GUITAR/templates/admin/assets/images/logo.svg" alt="logo" class="logo-dark" />
                 </a>
-                <a class="navbar-brand brand-logo-mini" href="index.php"><img src="/SHOP_GUITAR/templates/admin/assets/images/logo-mini.svg" alt="logo" /></a>
+                <a class="navbar-brand brand-logo-mini" href="/SHOP_GUITAR/admin/"><img src="/SHOP_GUITAR/templates/admin/assets/images/logo-mini.svg" alt="logo" /></a>
             </div>
             <div class="navbar-menu-wrapper d-flex align-items-center flex-grow-1">
                 <h5 class="mb-0 font-weight-medium d-none d-lg-flex">Welcome shop dashboard!</h5>
@@ -56,79 +61,39 @@ include_once $_SERVER['DOCUMENT_ROOT'] . '/SHOP_GUITAR/Util/limitContact.php';
                         <input type="search" class="form-control" placeholder="Search Here" title="Search here">
                     </form>
                     <li class="nav-item"><a href="#" class="nav-link"><i class="icon-basket-loaded"></i></a></li>
-                    <li class="nav-item"><a href="#" class="nav-link"><i class="icon-chart"></i></a></li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link count-indicator message-dropdown" id="messageDropdown" href="#" data-toggle="dropdown" aria-expanded="false">
-                            <i class="icon-speech"></i>
-                            <span class="count">7</span>
-                        </a>
-                        <div class="dropdown-menu dropdown-menu-right navbar-dropdown preview-list pb-0" aria-labelledby="messageDropdown">
-                            <a class="dropdown-item py-3">
-                                <p class="mb-0 font-weight-medium float-left">You have 7 unread mails </p>
-                                <span class="badge badge-pill badge-primary float-right">View all</span>
-                            </a>
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item preview-item">
-                                <div class="preview-thumbnail">
-                                    <img src="/SHOP_GUITAR/templates/admin/assets/images/faces/face10.jpg" alt="image" class="img-sm profile-pic">
-                                </div>
-                                <div class="preview-item-content flex-grow py-2">
-                                    <p class="preview-subject ellipsis font-weight-medium text-dark">Marian Garner </p>
-                                    <p class="font-weight-light small-text"> The meeting is cancelled </p>
-                                </div>
-                            </a>
-                            <a class="dropdown-item preview-item">
-                                <div class="preview-thumbnail">
-                                    <img src="/SHOP_GUITAR/templates/admin/assets/images/faces/face12.jpg" alt="image" class="img-sm profile-pic">
-                                </div>
-                                <div class="preview-item-content flex-grow py-2">
-                                    <p class="preview-subject ellipsis font-weight-medium text-dark">David Grey </p>
-                                    <p class="font-weight-light small-text"> The meeting is cancelled </p>
-                                </div>
-                            </a>
-                            <a class="dropdown-item preview-item">
-                                <div class="preview-thumbnail">
-                                    <img src="/SHOP_GUITAR/templates/admin/assets/images/faces/face1.jpg" alt="image" class="img-sm profile-pic">
-                                </div>
-                                <div class="preview-item-content flex-grow py-2">
-                                    <p class="preview-subject ellipsis font-weight-medium text-dark">Travis Jenkins </p>
-                                    <p class="font-weight-light small-text"> The meeting is cancelled </p>
-                                </div>
-                            </a>
-                        </div>
-                    </li>
-                    <li class="nav-item dropdown language-dropdown d-none d-sm-flex align-items-center">
-                        <a class="nav-link d-flex align-items-center dropdown-toggle" id="LanguageDropdown" href="#" data-toggle="dropdown" aria-expanded="false">
-                            <div class="d-inline-flex mr-3">
-                                <i class="flag-icon flag-icon-us"></i>
-                            </div>
-                            <span class="profile-text font-weight-normal">English</span>
-                        </a>
-                        <div class="dropdown-menu dropdown-menu-left navbar-dropdown py-2" aria-labelledby="LanguageDropdown">
-                            <a class="dropdown-item">
-                                <i class="flag-icon flag-icon-us"></i> English </a>
-                            <a class="dropdown-item">
-                                <i class="flag-icon flag-icon-fr"></i> French </a>
-                            <a class="dropdown-item">
-                                <i class="flag-icon flag-icon-ae"></i> Arabic </a>
-                            <a class="dropdown-item">
-                                <i class="flag-icon flag-icon-ru"></i> Russian </a>
-                        </div>
-                    </li>
                     <li class="nav-item dropdown d-none d-xl-inline-flex user-dropdown">
                         <a class="nav-link dropdown-toggle" id="UserDropdown" href="#" data-toggle="dropdown" aria-expanded="false">
-                            <img class="img-xs rounded-circle ml-2" src="/SHOP_GUITAR/templates/admin/assets/images/faces/face8.jpg" alt="Profile image"> <span class="font-weight-normal"> Admin </span></a>
+                            <?php
+                            if ($_SESSION['arUser']['avt'] != null) {
+                            ?>
+                                <img class="img-xs rounded-circle ml-2" src="/SHOP_GUITAR/files/images/avatar/<?php echo  $_SESSION['arUser']['avt']; ?>" alt="Profile image">
+                            <?php
+                            } else {
+                            ?>
+                                <img class="img-xs rounded-circle ml-2" src="/SHOP_GUITAR/files/images/avatar/default.jpg" alt="Profile image">
+                            <?php
+                            }
+                            ?>
+                            <span class="font-weight-normal"> <?php echo  $_SESSION['arUser']['fullname']; ?> </span>
+                        </a>
                         <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="UserDropdown">
                             <div class="dropdown-header text-center">
-                                <img class="img-md rounded-circle" src="/SHOP_GUITAR/templates/admin/assets/images/faces/face8.jpg" alt="Profile image">
-                                <p class="mb-1 mt-3">Allen Moreno</p>
-                                <p class="font-weight-light text-muted mb-0">allenmoreno@gmail.com</p>
+                                <?php
+                                if ($_SESSION['arUser']['avt'] != null) {
+                                ?>
+                                    <img class="img-md rounded-circle" style="width:120px;height:120px;" src="/SHOP_GUITAR/files/images/avatar/<?php echo $_SESSION['arUser']['avt']; ?>" alt="Profile image">
+                                <?php
+                                } else {
+                                ?>
+                                    <img class="img-md rounded-circle" src="/SHOP_GUITAR/files/images/avatar/default.jpg; ?>" alt="Profile image">
+                                <?php
+                                }
+                                ?>
+                                <p class="mb-1 mt-3"><?php echo $_SESSION['arUser']['fullname'] ?></p>
+                                <p class="font-weight-light text-muted mb-0"><?php echo $_SESSION['arUser']['email'] ?></p>
                             </div>
-                            <a class="dropdown-item"><i class="dropdown-item-icon icon-user text-primary"></i> My Profile <span class="badge badge-pill badge-danger">1</span></a>
-                            <a class="dropdown-item"><i class="dropdown-item-icon icon-speech text-primary"></i> Messages</a>
-                            <a class="dropdown-item"><i class="dropdown-item-icon icon-energy text-primary"></i> Activity</a>
-                            <a class="dropdown-item"><i class="dropdown-item-icon icon-question text-primary"></i> FAQ</a>
-                            <a class="dropdown-item"><i class="dropdown-item-icon icon-power text-primary"></i>Sign Out</a>
+                            <a class="dropdown-item"><i class="dropdown-item-icon icon-user text-primary"></i> My Profile </a>
+                            <a href="/SHOP_GUITAR/admin/auth/logout.php" class="dropdown-item"><i class="dropdown-item-icon icon-power text-primary"></i>Sign Out</a>
                         </div>
                     </li>
                 </ul>
