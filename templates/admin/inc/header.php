@@ -9,6 +9,7 @@ if (!(isset($_SESSION['arUser']) && $_SESSION['arUser']['role'] == 1)) {
 include_once $_SERVER['DOCUMENT_ROOT'] . '/SHOP_GUITAR/Util/dbconnect.php';
 include_once $_SERVER['DOCUMENT_ROOT'] . '/SHOP_GUITAR/Util/enumOrder.php';
 include_once $_SERVER['DOCUMENT_ROOT'] . '/SHOP_GUITAR/Util/limitContact.php';
+include_once $_SERVER['DOCUMENT_ROOT'] . '/SHOP_GUITAR/Util/constant.php';
 ?>
 <!DOCTYPE html>
 <html lang="en">

@@ -77,8 +77,27 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/SHOP_GUITAR/templates/admin/inc/sideb
                     </tr>
                 </thead>
                 <tbody>
+                    <!--start pagination -->
                     <?php
-                    $queryGetOrder = "SELECT o.*,a.address,a.phone,a.user_id FROM orders AS o INNER JOIN address AS a ON o.address_id = a.id ORDER BY o.id DESC";
+                    //Tổng số dòng
+                    $qrTsd = "SELECT * FROM orders";
+                    $resultTsd = $conn->query($qrTsd);
+                    $Tsd = $resultTsd->num_rows;
+                    //Số item trong 1 trang 
+                    $row_count = ROW_COUNT;
+                    //Tổng số trang
+                    $Tst = ceil($Tsd / $row_count);
+                    //Trang hiện tại
+                    $current_page = 1;
+                    if (isset($_GET['page'])) {
+                        $current_page = $_GET['page'];
+                    }
+                    //offset
+                    $offset = ($current_page - 1) * $row_count;
+                    ?>
+                    <!--end pagination -->
+                    <?php
+                    $queryGetOrder = "SELECT o.*,a.address,a.phone,a.user_id FROM orders AS o INNER JOIN address AS a ON o.address_id = a.id ORDER BY o.id DESC LIMIT {$offset},{$row_count}";
                     $result = $conn->query($queryGetOrder);
                     $index = 1;
                     if ($result->num_rows > 0) {
@@ -117,15 +136,60 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/SHOP_GUITAR/templates/admin/inc/sideb
                         <tr>
                             <td colspan="7" class="p-2">
                                 <div class="footer-table">
-                                    <div>SHOWING 1-8 OF 18</div>
+                                <div>SHOWING <?php echo $offset + 1; ?>-<?php echo ($current_page == $Tst ? $Tsd : $offset + $row_count); ?> OF <?php echo $Tsd; ?></div>
                                     <nav class="ml-auto">
                                         <ul class="pagination separated pagination-info">
-                                            <li class="page-item"><a href="#" class="page-link"><i class="icon-arrow-left"></i></a></li>
-                                            <li class="page-item active"><a href="#" class="page-link">1</a></li>
-                                            <li class="page-item"><a href="#" class="page-link">2</a></li>
-                                            <li class="page-item"><a href="#" class="page-link">3</a></li>
-                                            <li class="page-item"><a href="#" class="page-link">4</a></li>
-                                            <li class="page-item"><a href="#" class="page-link"><i class="icon-arrow-right"></i></a></li>
+                                            <?php
+                                            if ($current_page > 1) {
+                                                $pre_page = $current_page - 1;
+                                            ?>
+                                                <li class="page-item"><a href="?page=<?php echo $pre_page; ?>" class="page-link"><i class="icon-arrow-left"></i></a></li>
+                                            <?php
+                                            } else {
+                                            ?>
+                                                <li class="page-item"><span class="page-link"><i class="icon-arrow-left"></i></span></li>
+                                            <?php
+                                            }
+                                            if ($current_page > 2) {
+                                            ?>
+                                                <li class="page-item"><span class="page-link">...</span></li>
+                                            <?php
+                                            }
+                                            ?>
+                                            <?php
+                                            for ($i = 1; $i <= $Tst; $i++) {
+                                                if ($i != $current_page) {
+                                                    if ($i > $current_page - 2 && $i < $current_page + 2) {
+                                            ?>
+                                                        <li class="page-item"><a href="?page=<?php echo $i; ?>" class="page-link"><?php echo $i; ?></a></li>
+                                                    <?php
+                                                    }
+                                                } else {
+                                                    ?>
+                                                    <li class="page-item active"><a href="?page=<?php echo $i; ?>" class="page-link"><?php echo $i; ?></a></li>
+
+                                            <?php
+                                                }
+                                            }
+                                            ?>
+                                            <?php
+                                            if ($Tst - $current_page > 1) {
+                                            ?>
+                                                <li class="page-item"><span class="page-link">...</span></li>
+                                            <?php
+                                            }
+
+                                            if ($current_page < $Tst) {
+                                                $next_page = $current_page + 1;
+                                            ?>
+                                                <li class="page-item"><a href="?page=<?php echo $next_page; ?>" class="page-link"><i class="icon-arrow-right"></i></a></li>
+                                            <?php
+                                            } else {
+                                            ?>
+                                                <li class="page-item"><span class="page-link"><i class="icon-arrow-right"></i></span></li>
+                                            <?php
+                                            }
+                                            ?>
                                         </ul>
                                     </nav>
                                 </div>
